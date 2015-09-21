@@ -1,75 +1,96 @@
 require "hangman"
 
 RSpec.describe Hangman do
-  describe '#lives_left' do
-    context 'New Hangman object with random word' do
+
+  shared_context 'new Hangman object' do
       before do
-        @hangman = Hangman.new()
+        @hangman = Hangman.new('INSECT')
+      end
+  end
+  shared_context 'Hangman object with one correct guess' do
+      before do
+        @hangman = Hangman.new('INSECT')
+        @hangman.guess_letter('I')
+      end
+  end
+  shared_context 'Hangman object with one incorrect guess' do
+      before do
+        @hangman = Hangman.new('INSECT')
+        @hangman.guess_letter('B')
+      end
+  end
+
+  describe '#lives_left with new Hangman object' do
+    include_context 'new Hangman object'
+    it 'returns 9 lives left' do
+      expect(@hangman.lives_left).to eq(9)
+    end
+  end
+  describe '#lives_left' do
+    context "New Hangman object" do
+      before do
+        @hangman = Hangman.new('INSECT')
       end
       it 'returns 9 lives left' do
         expect(@hangman.lives_left).to eq(9)
       end
     end
-  end
-
-  # stuff below here needs refactoring
-  describe '#still_alive?' do
-    context 'New hangman object with random word' do
+    context 'Hangman object with correct guess' do
       before do
-        @hangman = Hangman.new()
-      end
-      it 'says whether we are still alive' do
-        expect(@hangman.still_alive).to be true
-      end
-    end
-  end
-  describe '#has_letter_been_guessed' do
-    context 'New hangman object with random word' do
-      before do
-        @hangman = Hangman.new()
-      end
-      it 'checks whether we have guessed this letter' do
-        # valid data
-        expect(@hangman.has_letter_been_guessed('A')).to eq(false)
-        expect(@hangman.has_letter_been_guessed('E')).to eq(false)
-        expect(@hangman.has_letter_been_guessed('U')).to eq(false)
-        expect(@hangman.has_letter_been_guessed('Z')).to eq(false)
-        # weird data
-        expect(@hangman.has_letter_been_guessed('#')).to eq(false)
-        expect(@hangman.has_letter_been_guessed('&')).to eq(false)
-        expect(@hangman.has_letter_been_guessed('!')).to eq(false)
-        expect(@hangman.has_letter_been_guessed(')')).to eq(false)
-      end
-    end
-  end
-
-  context 'New Hangman object with word == "INSECT", about to guess letter' do
-    # haven't done "before" here as we guess correct and incorrect
-    # want to test lives_left with a correct guess and incorrect guess
-    # so we need two different instances
-    # I don't think this should be done in two different contexts
-    describe '#guess_letter' do
-      it 'guesses a letter, loses points if not correct' do
-        @hangman = Handman.new("INSECT")
+        @hangman = Hangman.new('INSECT')
         @hangman.guess_letter('I')
-        expect(@hangman.has_letter_been_guessed('I')).to eq(true)
-        #expect(@hangman.
+      end
+      it 'returns 9 lives left' do
+        expect(@hangman.lives_left).to eq(9)
+      end
+    end
+    context 'Hangman object with incorrect guess' do
+      before do
+        @hangman = Hangman.new('INSECT')
+        @hangman.guess_letter('B')
+      end
+      it 'returns 8 lives left' do
+        expect(@hangman.lives_left).to eq(8)
+      end
+    end
+    context 'Hangman object with 9 incorrect guesses' do
+      before do
+        @hangman = Hangman.new('INSECT')
+        @hangman.guess_letter('B')
+      end
+      it 'returns 8 lives left' do
+        expect(@hangman.lives_left).to eq(8)
       end
     end
   end
 
-  context 'New Hangman object with word == "INSECT", guessed "I"' do
-    before do
-      @hangman = Hangman.new('INSECT')
-      @hangman.guess_letter('I')
+  describe '#word_status' do
+    context 'New Hangman object' do
+      before do
+        @hangman = Hangman.new('INSECT')
+      end
+      it 'returns an array with 7 nils' do
+        expect(@hangman.lives_left).to eq([nil, nil, nil, nil, nil, nil, nil])
+      end
     end
-    describe '#has_letter_been_guessed?' do
-      it 'Returns true for "I", false for others' do
-        expect(@hangman.has_letter_been_guessed('A')).to eq(false)
-        expect(@hangman.has_letter_been_guessed('Z')).to eq(false)
-        expect(@hangman.has_letter_been_guessed('G')).to eq(false)
-        expect(@hangman.has_letter_been_guessed('I')).to eq(true)
+    context 'Hangman object with correct guess' do
+      before do
+        @hangman = Hangman.new('INSECT')
+        @hangman.guess_letter('I')
+      end
+      it 'returns an array with \'I\' and 6 nils' do
+        expect(@hangman.lives_left).to eq(['I', nil, nil, nil, nil, nil, nil])
+      end
+    end
+    context 'Hangman object with incorrect guess' do
+      before do
+        @hangman = Hangman.new('INSECT')
+        @hangman.guess_letter('B')
+      end
+      it 'returns an array with 7 nils' do
+        expect(@hangman.lives_left).to eq([nil, nil, nil, nil, nil, nil, nil])
       end
     end
   end
+
 end

@@ -1,5 +1,5 @@
 class Hangman
-  def initialize()
+  def initialize(initial_word = '')
   end
 
   def run()
@@ -14,7 +14,11 @@ class Hangman
   def has_letter_been_guessed()
   end
 
-  def guess_letter()
+  def guess_letter(letter)
+  end
+
+  # this should be a readable variable
+  def word_status()
   end
 end
 
