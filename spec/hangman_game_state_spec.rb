@@ -4,6 +4,20 @@ RSpec.describe HangmanGameState do
 
   context 'initialized with word "TELEPHONE"' do
     let(:game_state){ HangmanGameState.new('TELEPHONE') }
+
+    describe "#game_lost?" do
+      subject { game_state.game_lost? }
+
+      context "at the start of the game" do
+        it { is_expected.to be false }
+      end
+
+      context "after one guess" do
+        let(:letters_guessed) { ["a"] }
+        it { is_expected.to be false }
+      end
+    end
+
     describe '#lives_left' do
       it 'is 9' do
         expect(game_state.lives_left).to eq(9)
@@ -22,6 +36,7 @@ RSpec.describe HangmanGameState do
     describe '#game_lost?' do
       it 'is false' do
         expect(game_state.game_lost?).to eq(false)
+        expect(game_state).to_not be_game_lost
       end
     end
     describe '#game_over?' do
