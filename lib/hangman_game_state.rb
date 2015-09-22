@@ -10,7 +10,6 @@ require 'set'
 # - how many lives are left
 # The game state can be changed by guessing a letter
 class HangmanGameState
-  # WORDLIST_FILENAME = './data/wordsEn.txt'
   INITIAL_NUMBER_OF_LIVES = 9
   def initialize(initial_word_in_uppercase)
     @word = initial_word_in_uppercase
@@ -19,15 +18,6 @@ class HangmanGameState
   end
 
   attr_reader :masked_letters
-
-  # these need to be done in a different file
-  #def get_number_of_words
-  #  File.readlines('./data/wordsEn.txt').size
-  #end
-
-  #def get_random_word
-  #  File.readlines('./data/wordsEn.txt')[rand(get_number_of_words)]
-  #end
 
   def lives_left
     return INITIAL_NUMBER_OF_LIVES - @guessed_letters.size + (@masked_letters.uniq - [nil]).size
