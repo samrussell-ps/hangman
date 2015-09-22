@@ -7,21 +7,22 @@ class Hangman
 
   attr_reader :word_status
 
-  def run()
+  def lives_left
   end
 
-  def lives_left()
-  end
-
-  def still_alive()
-  end
-
-  def has_letter_been_guessed()
+  def has_letter_been_guessed
   end
 
   def guess_letter(letter)
   end
+
+  def game_won
+  end
+
+  def game_lost
+  end
+
+  def game_over
+  end
 end
 
-hangman = Hangman.new()
-hangman.run()
