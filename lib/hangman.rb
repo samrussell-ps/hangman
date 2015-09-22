@@ -1,3 +1,5 @@
+require 'set'
+
 class Hangman
   def initialize(initial_word = '')
     @word_status = []

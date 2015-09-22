@@ -282,7 +282,6 @@ RSpec.describe Hangman do
   describe '#guess_letter' do
     context "new Hangman object" do
       include_context 'new Hangman object' do
-
       end
     end
   end
