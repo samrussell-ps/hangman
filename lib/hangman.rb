@@ -1,6 +1,9 @@
 class Hangman
   def initialize(initial_word = '')
+    @word_status = []
   end
+
+  attr_reader :word_status
 
   def run()
   end
@@ -15,10 +18,6 @@ class Hangman
   end
 
   def guess_letter(letter)
-  end
-
-  # this should be a readable variable
-  def word_status()
   end
 end
 
