@@ -1,26 +1,33 @@
 require 'set'
 
-class Hangman
-  WORDLIST_FILENAME = './data/wordsEn.txt'
+# This class holds the game state for a game of hangman
+# It can be initialised with a word in uppercase characters
+# It can answer abstract questions about the game:
+# - have we won
+# - have we lost
+# - is the game over
+# - has a letter been guessed
+# - how many lives are left
+# The game state can be changed by guessing a letter
+class HangmanGameState
+  # WORDLIST_FILENAME = './data/wordsEn.txt'
   INITIAL_NUMBER_OF_LIVES = 9
-  def initialize(initial_word)
-    # TODO: doesn't check for non-alpha characters
-    # TODO: doesn't check for non-string or 0-length string
-    # TODO: doesn't enforce uppercase
-    @word = initial_word
+  def initialize(initial_word_in_uppercase)
+    @word = initial_word_in_uppercase
     @masked_letters = (1..@word.size).map{nil}
     @guessed_letters = Set.new
   end
 
   attr_reader :masked_letters
 
-  def get_number_of_words
-    File.readlines('./data/wordsEn.txt').size
-  end
+  # these need to be done in a different file
+  #def get_number_of_words
+  #  File.readlines('./data/wordsEn.txt').size
+  #end
 
-  def get_random_word
-    File.readlines('./data/wordsEn.txt')[rand(get_number_of_words)]
-  end
+  #def get_random_word
+  #  File.readlines('./data/wordsEn.txt')[rand(get_number_of_words)]
+  #end
 
   def lives_left
     return INITIAL_NUMBER_OF_LIVES - @guessed_letters.size + (@masked_letters.uniq - [nil]).size
