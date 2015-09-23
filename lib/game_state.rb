@@ -9,7 +9,7 @@ require 'set'
 # - has a letter been guessed
 # - how many lives are left
 # The game state can be changed by guessing a letter
-class HangmanGameState
+class GameState
   INITIAL_NUMBER_OF_LIVES = 9
   def initialize(initial_word_in_uppercase)
     @word = initial_word_in_uppercase
@@ -17,10 +17,11 @@ class HangmanGameState
     @guessed_letters = Set.new
   end
 
+  # will be def
   attr_reader :masked_letters
 
   def lives_left
-    return INITIAL_NUMBER_OF_LIVES - @guessed_letters.size + (@masked_letters.uniq - [nil]).size
+    INITIAL_NUMBER_OF_LIVES - @guessed_letters.size + (@masked_letters.uniq - [nil]).size
   end
 
   def has_letter_been_guessed?
@@ -28,26 +29,32 @@ class HangmanGameState
 
   def guess_letter(letter)
     @guessed_letters.add(letter)
-    if @word.include?(letter)
-      @guessed_letters.add(letter)
-      @word.split('').each_with_index do |val, index|
-        if val == letter
-          @masked_letters[index] = letter
-        end
-      end
-    end
+    #if @word.include?(letter)
+    #  .chars instead of .split('')
+    #  @word.split('').each_with_index do |val, index|
+    #    if val == letter
+    #      @masked_letters[index] = letter
+    #    end
+    #  end
+    #end
   end
 
-  def game_won?
+  def won?
     !@masked_letters.include?(nil)
   end
 
-  def game_lost?
+  def lost?
     lives_left == 0
   end
 
-  def game_over?
-    game_won? || game_lost?
+  def finished?
+    won? || lost?
   end
+
+  private
+  
+  def correct_guess_count
+  end
+
 end
 
