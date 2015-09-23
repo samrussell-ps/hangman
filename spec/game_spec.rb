@@ -124,6 +124,20 @@ RSpec.describe Game do
         it { is_expected.to be_truthy }
       end
     end
+    describe "#letter_has_been_guessed?" do
+      subject { game.letter_has_been_guessed?("A") }
+      context "at start of game" do
+        it { is_expected.to be_falsey }
+      end
+      context "after guessing \"E\"" do
+        let(:letters_to_guess) { ["E"] }
+        it { is_expected.to be_falsey }
+      end
+      context "after guessing \"A\"" do
+        let(:letters_to_guess) { ["A"] }
+        it { is_expected.to be_truthy }
+      end
+    end
   end
 
 end

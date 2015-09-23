@@ -16,6 +16,8 @@ class Game
     @guessed_letters = Set.new
   end
 
+  attr_reader :word
+
   def lives_left
     INITIAL_NUMBER_OF_LIVES - @guessed_letters.size + (masked_letters.uniq - [nil]).size
   end
@@ -26,7 +28,8 @@ class Game
     @word.chars.map { |char| if @guessed_letters.include?(char) then char else nil end }
   end
 
-  def has_letter_been_guessed?
+  def letter_has_been_guessed?(letter)
+    @guessed_letters.include?(letter)
   end
 
   def guess_letter(letter)
