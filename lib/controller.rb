@@ -1,4 +1,4 @@
-require "input"
+require "./lib/input"
 
 # This class does the following:
 # - Validates user input (maybe should be done somewhere else?)
