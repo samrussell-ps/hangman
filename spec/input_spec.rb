@@ -6,7 +6,7 @@ RSpec.describe Input do
   subject(:input) { Input.new(user_data) }
   describe "#valid?" do
     context "with a string" do
-      let(:user_data) { "cabbage" }
+      let(:user_data) { "AB" }
       it { is_expected.to_not be_valid }
     end
     
@@ -31,10 +31,10 @@ RSpec.describe Input do
     end
   end
 
-  describe "#groomed" do
-    subject { input.groomed }
+  describe "#groom" do
+    subject { input.groom }
     context "with a string" do
-      let(:user_data) { "cabbage" }
+      let(:user_data) { "AB" }
       it { is_expected.to be_nil }
     end
     

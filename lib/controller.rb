@@ -1,3 +1,5 @@
+require "input"
+
 # This class does the following:
 # - Validates user input (maybe should be done somewhere else?)
 # - Passes information to a Game
@@ -9,18 +11,8 @@ class Controller
     @user_interface = user_interface
   end
 
-  def valid_input?(input)
-    input != nil && input.match(/\A[[:alpha:]]+\z/) && input.size == 1
-  end
-
-  def prepare_input(input)
-    if valid_input?(input)
-      input.upcase
-    else
-      nil
-    end
-  end
-
+  # this is almost too small to have its own class
+  # but probably isn't a controller function
   def masked_word
     @game.masked_letters.map { |letter| if letter then letter else "." end }.join
   end
@@ -31,10 +23,10 @@ class Controller
       @user_interface.display_output("You have #{@game.lives_left} lives left")
       @user_interface.display_output("Guess a letter")
 
-      input = @user_interface.get_input
+      input = Input.new(@user_interface.get_input)
 
-      if valid_input?(input)
-        guessed_letter = prepare_input(input)
+      if input.valid?
+        guessed_letter = input.groom
 
         if @game.letter_has_been_guessed?(guessed_letter)
           @user_interface.display_output("You have already guessed that letter!")

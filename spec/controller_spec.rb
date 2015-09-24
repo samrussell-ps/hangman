@@ -8,41 +8,6 @@ RSpec.describe Controller do
   let(:user_interface) { ConsoleInterface.new }
   subject(:controller) { Controller.new(game, user_interface) }
 
-  describe "#valid_input?" do
-    let(:input) { nil }
-    subject(:valid) { controller.valid_input?(input) }
-
-    context "when input is \"A\"" do
-      let(:input) { "A" }
-      it { is_expected.to be_truthy }
-    end
-
-    context "when input is \"a\"" do
-      let(:input) { "a" }
-      it { is_expected.to be_truthy }
-    end
-
-    context "when input is \"?\"" do
-      let(:input) { "?" }
-      it { is_expected.to be_falsey }
-    end
-
-    context "when input is \"2\"" do
-      let(:input) { "2" }
-      it { is_expected.to be_falsey }
-    end
-
-    context "when input is nil" do
-      let(:input) { nil }
-      it { is_expected.to be_falsey }
-    end
-
-    context "when input is \"AB\"" do
-      let(:input) { "AB" }
-      it { is_expected.to be_falsey }
-    end
-  end
-
   # this takes masked_letters from Game
   # turns it into a word for display
   # ... belongs to the View?
@@ -76,10 +41,6 @@ RSpec.describe Controller do
     context "when user enters \"a\"" do
       let(:user_input) { "a" }
 
-      it "validates user input" do
-        expect(controller).to receive(:valid_input?)
-      end
-
       it "passes \"A\" to Game#guess_letter" do
         expect(game).to receive(:guess_letter).with("A")
       end
@@ -91,10 +52,6 @@ RSpec.describe Controller do
 
     context "when user enters \"7\"" do
       let(:user_input) { "7" }
-
-      it "validates user input" do
-        expect(controller).to receive(:valid_input?)
-      end
 
       it "doesn't pass anything to Game#guess_letter" do
         expect(game).to_not receive(:guess_letter)
