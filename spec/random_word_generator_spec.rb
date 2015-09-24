@@ -2,12 +2,17 @@ require "random_word_generator"
 
 RSpec.describe RandomWordGenerator do
   describe "#random_word" do
-    let(:random_word){ RandomWordGenerator.random_word }
-    let(:number_of_lines) { 1000 }
-    subject { random_word }
-    it "should be \"triumviri\" when rand() returns 99999" do
-      expect(RandomWordGenerator).to receive(:rand).and_return(99999)
-      is_expected.to eq("triumviri")
+    subject(:random_word){ RandomWordGenerator.random_word }
+
+    it 'returns a random word' do
+      words = 50.times.map { RandomWordGenerator.random_word } 
+
+      words.each do |word|
+        expect(word).to be_a String
+        expect(word).not_to be_empty
+      end
+
+      expect(words.uniq.count).to be > 40
     end
   end
 end

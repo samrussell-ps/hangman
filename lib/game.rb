@@ -11,20 +11,23 @@ require "set"
 # The game state can be changed by guessing a letter
 class Game
   INITIAL_NUMBER_OF_LIVES = 9
+
+  attr_reader :word
+
   def initialize(initial_word_in_uppercase)
     @word = initial_word_in_uppercase
     @guessed_letters = Set.new
   end
 
-  attr_reader :word
-
   def lives_left
+    # TODO: should call correct_guess_count
     INITIAL_NUMBER_OF_LIVES - @guessed_letters.size + (masked_letters.uniq - [nil]).size
   end
 
   def masked_letters
     # this is how i would write this in python, doesn"t read nicely in english
     # returns an array showing the word with un-guessed letters replaced with nil
+    # expression ? this : that
     @word.chars.map { |char| if @guessed_letters.include?(char) then char else nil end }
   end
 
@@ -50,8 +53,8 @@ class Game
 
   private
   
+  # TODO: test this
   def correct_guess_count
   end
-
 end
 

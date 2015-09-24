@@ -3,15 +3,17 @@ require "game"
 require "console_interface"
 
 RSpec.describe Controller do
+  # TODO: whitespace/newlines
   let(:game) { Game.new("SAUSAGE") }
   let(:user_interface) { ConsoleInterface.new }
-  let(:controller) { Controller.new(game, user_interface) }
+  subject(:controller) { Controller.new(game, user_interface) }
   describe "#valid_input?" do
     let(:input) { nil }
-    let(:valid) { controller.valid_input?(input) }
+    subject(:valid) { controller.valid_input?(input) }
     context "when input is \"A\"" do
       let(:input) { "A" }
-      it { expect(valid).to be_truthy }
+      # TODO: do in the other examples...
+      it { is_expected.to be_truthy }
     end
     context "when input is \"a\"" do
       let(:input) { "a" }
@@ -48,47 +50,45 @@ RSpec.describe Controller do
     end
   end
   describe "#run" do
+    before do
+      allow(game).to receive(:finished?).and_return(false, true)
+      allow(user_interface).to receive(:get_input).and_return("a")
+    end
+    
+    after do
+      controller.run
+    end
+    
     # not very DRY, there must be a way to improve this
     # idea is to test the Controller#run loop, how to reuse mocks?
     context "when user enters \"a\"" do
-      it "validates user input" do
-        expect(game).to receive(:finished?).and_return(false, true)
-        expect(user_interface).to receive(:get_input).and_return("a")
-        expect(controller).to receive(:valid_input?)
-        # this seems wrong... should be in a before? subject maybe?
-        expect(controller.run).to be nil
-      end
+      #it "validates user input" do
+      #  expect(controller).to receive(:valid_input?)
+      #  # this seems wrong... should be in a before? subject maybe?
+      #end
+      it { is_expected.to receive(:valid_input?) }
       it "passes \"A\" to Game#guess_letter" do
-        expect(game).to receive(:finished?).and_return(false, true)
         expect(user_interface).to receive(:get_input).and_return("a")
         expect(game).to receive(:guess_letter).with("A")
-        expect(controller.run).to be nil
       end
       it "calls ConsoleInterface#display_output at least once" do
-        expect(game).to receive(:finished?).and_return(false, true)
         expect(user_interface).to receive(:get_input).and_return("a")
         expect(user_interface).to receive(:display_output).at_least(:once)
-        expect(controller.run).to be nil
       end
     end
+
     context "when user enters \"7\"" do
       it "validates user input" do
-        expect(game).to receive(:finished?).and_return(false, true)
         expect(user_interface).to receive(:get_input).and_return("7")
         expect(controller).to receive(:valid_input?)
-        expect(controller.run).to be nil
       end
       it "doesn't pass anything to Game#guess_letter" do
-        expect(game).to receive(:finished?).and_return(false, true)
         expect(user_interface).to receive(:get_input).and_return("7")
         expect(game).to_not receive(:guess_letter)
-        expect(controller.run).to be nil
       end
       it "calls ConsoleInterface#display_output at least once" do
-        expect(game).to receive(:finished?).and_return(false, true)
         expect(user_interface).to receive(:get_input).and_return("a")
         expect(user_interface).to receive(:display_output).at_least(:once)
-        expect(controller.run).to be nil
       end
     end
   end
