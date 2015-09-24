@@ -50,9 +50,11 @@ RSpec.describe Controller do
     end
   end
   describe "#run" do
+    let(:user_input) { nil }
     before do
       allow(game).to receive(:finished?).and_return(false, true)
-      allow(user_interface).to receive(:get_input).and_return("a")
+      allow(user_interface).to receive(:get_input).and_return(user_input)
+      allow(user_interface).to receive(:display_output)
     end
     
     after do
@@ -62,32 +64,27 @@ RSpec.describe Controller do
     # not very DRY, there must be a way to improve this
     # idea is to test the Controller#run loop, how to reuse mocks?
     context "when user enters \"a\"" do
-      #it "validates user input" do
-      #  expect(controller).to receive(:valid_input?)
-      #  # this seems wrong... should be in a before? subject maybe?
-      #end
-      it { is_expected.to receive(:valid_input?) }
+      let(:user_input) { "a" }
+      it "validates user input" do
+        expect(controller).to receive(:valid_input?)
+      end
       it "passes \"A\" to Game#guess_letter" do
-        expect(user_interface).to receive(:get_input).and_return("a")
         expect(game).to receive(:guess_letter).with("A")
       end
       it "calls ConsoleInterface#display_output at least once" do
-        expect(user_interface).to receive(:get_input).and_return("a")
         expect(user_interface).to receive(:display_output).at_least(:once)
       end
     end
 
     context "when user enters \"7\"" do
+      let(:user_input) { "7" }
       it "validates user input" do
-        expect(user_interface).to receive(:get_input).and_return("7")
         expect(controller).to receive(:valid_input?)
       end
       it "doesn't pass anything to Game#guess_letter" do
-        expect(user_interface).to receive(:get_input).and_return("7")
         expect(game).to_not receive(:guess_letter)
       end
       it "calls ConsoleInterface#display_output at least once" do
-        expect(user_interface).to receive(:get_input).and_return("a")
         expect(user_interface).to receive(:display_output).at_least(:once)
       end
     end

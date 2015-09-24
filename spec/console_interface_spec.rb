@@ -26,7 +26,6 @@ RSpec.describe ConsoleInterface do
     end
   end
   describe "#display_output" do
-    before { console_interface.display_output("sample data") }
     it "calls puts" do
       expect(console_interface).to receive(:puts).with("sample data")
       console_interface.display_output("sample data")
