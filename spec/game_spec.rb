@@ -37,7 +37,7 @@ RSpec.describe Game do
         it { is_expected.to be 9 }
       end
     end
-
+    
     describe "#masked_letters" do
       subject { game.masked_letters }
 

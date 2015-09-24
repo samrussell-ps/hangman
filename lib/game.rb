@@ -20,8 +20,7 @@ class Game
   end
 
   def lives_left
-    # TODO: should call correct_guess_count
-    INITIAL_NUMBER_OF_LIVES - @guessed_letters.size + (masked_letters.uniq - [nil]).size
+    INITIAL_NUMBER_OF_LIVES - @guessed_letters.size + correct_guess_count
   end
 
   def masked_letters
@@ -51,8 +50,8 @@ class Game
 
   private
   
-  # TODO: test this
   def correct_guess_count
+    (masked_letters.uniq - [nil]).size
   end
 end
 
