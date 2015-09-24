@@ -20,6 +20,7 @@ class Game
   end
 
   def lives_left
+    # TODO: initial lives - incorrect guesses, make method
     INITIAL_NUMBER_OF_LIVES - @guessed_letters.size + correct_guess_count
   end
 
