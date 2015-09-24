@@ -1,3 +1,4 @@
+require "spec_helper"
 require "random_word_generator"
 
 RSpec.describe RandomWordGenerator do

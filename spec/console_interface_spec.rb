@@ -1,3 +1,4 @@
+require "spec_helper"
 require "console_interface"
 
 # this is a really thin wrapper for $stdin
