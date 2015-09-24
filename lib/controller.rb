@@ -1,5 +1,4 @@
 # This class does the following:
-# - Initialises a Game (not anymore!)
 # - Validates user input (maybe should be done somewhere else?)
 # - Passes information to a Game
 # - Retrieves information from a Game

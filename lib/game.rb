@@ -25,9 +25,7 @@ class Game
   end
 
   def masked_letters
-    # this is how i would write this in python, doesn"t read nicely in english
     # returns an array showing the word with un-guessed letters replaced with nil
-    # expression ? this : that
     @word.chars.map { |char| if @guessed_letters.include?(char) then char else nil end }
   end
 
