@@ -24,10 +24,9 @@ class Controller
       @user_interface.display_output("Guess a letter")
 
       input = Input.new(@user_interface.get_input)
+      guessed_letter = input.groom
 
-      if input.valid?
-        guessed_letter = input.groom
-
+      if guessed_letter
         if @game.letter_has_been_guessed?(guessed_letter)
           @user_interface.display_output("You have already guessed that letter!")
         else
