@@ -14,10 +14,17 @@ class Controller
   # this is almost too small to have its own class
   # but probably isn't a controller function
   def run
+    # TODO: refactor this
+    # pattern here is basically
+    # - display prompt and any alert (no alert to begin with)
+    # - get user input
+    # - process user input
+    # - set alert if user input is bad
     until @game.finished? do
-      @user_interface.display_output("The word so far: #{@game}")
-      @user_interface.display_output("You have #{@game.lives_left} lives left")
-      @user_interface.display_output("Guess a letter")
+      prompt = ""
+      prompt += "The word so far: #{@game}"
+      prompt += "You have #{@game.lives_left} lives left"
+      prompt += "Guess a letter"
 
       guessed_letter = GuessedLetter.new(@user_interface.get_input)
 

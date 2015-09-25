@@ -2,6 +2,7 @@ require "spec_helper"
 require "controller"
 require "game"
 require "console_interface"
+require "response"
 
 RSpec.describe Controller do
   let(:game) { Game.new("SAUSAGE") }
@@ -49,8 +50,8 @@ RSpec.describe Controller do
         expect(game).to receive(:guess_letter).with("A")
       end
 
-      it "calls ConsoleInterface#display_output at least once" do
-        expect(user_interface).to receive(:display_output).at_least(:once)
+      it "passes a Response object to ConsoleInterface#display_output" do
+        expect(user_interface).to receive(:display_output).with(an_instance_of(Response))
       end
     end
 
