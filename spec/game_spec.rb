@@ -8,7 +8,7 @@ RSpec.describe Game do
 
   before { letters_to_guess.each { |letter| game.guess_letter(letter) } }
 
-  context "initialized with word \"TELEPHONE\"" do
+  context "initialized with word 'TELEPHONE'" do
     let(:word_to_be_guessed) { "TELEPHONE" }
 
     describe "#lives_left" do
@@ -18,12 +18,12 @@ RSpec.describe Game do
         it { is_expected.to be 9 }
       end
 
-      context "after guessing \"E\"" do
+      context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
         it { is_expected.to be 9 }
       end
 
-      context "after guessing \"X\"" do
+      context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
         it { is_expected.to be 8 }
       end
@@ -48,13 +48,13 @@ RSpec.describe Game do
         it { is_expected.to eq([nil, nil, nil, nil, nil, nil, nil, nil, nil]) }
       end
 
-      context "after guessing \"E\"" do
+      context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
 
         it { is_expected.to eq([nil, "E", nil, "E", nil, nil, nil, nil, "E"]) }
       end
 
-      context "after guessing \"X\"" do
+      context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
         
         it { is_expected.to eq([nil, nil, nil, nil, nil, nil, nil, nil, nil]) }
@@ -80,13 +80,13 @@ RSpec.describe Game do
         it { is_expected.to be_falsey }
       end
 
-      context "after guessing \"E\"" do
+      context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
 
         it { is_expected.to be_falsey }
       end
 
-      context "after guessing \"X\"" do
+      context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
         
         it { is_expected.to be_falsey }
@@ -112,13 +112,13 @@ RSpec.describe Game do
         it { is_expected.to be_falsey }
       end
 
-      context "after guessing \"E\"" do
+      context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
         
         it { is_expected.to be_falsey }
       end
 
-      context "after guessing \"X\"" do
+      context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
         it { is_expected.to be_falsey }
       end
@@ -143,13 +143,13 @@ RSpec.describe Game do
         it { is_expected.to be_falsey }
       end
 
-      context "after guessing \"E\"" do
+      context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
 
         it { is_expected.to be_falsey }
       end
 
-      context "after guessing \"X\"" do
+      context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
         
         it { is_expected.to be_falsey }
@@ -175,13 +175,13 @@ RSpec.describe Game do
         it { is_expected.to be_falsey }
       end
 
-      context "after guessing \"E\"" do
+      context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
 
         it { is_expected.to be_falsey }
       end
 
-      context "after guessing \"A\"" do
+      context "after guessing 'A'" do
         let(:letters_to_guess) { ["A"] }
         
         it { is_expected.to be_truthy }

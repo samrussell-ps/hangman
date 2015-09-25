@@ -4,37 +4,45 @@ require "console_interface"
 # this is a really thin wrapper for $stdin
 # it will make porting to Rails easier
 RSpec.describe ConsoleInterface do
-  let(:console_interface) { ConsoleInterface.new }
+  subject(:console_interface) { ConsoleInterface.new }
 
   describe "#get_input" do
+    let(:user_input) { nil }
+    let(:parsed_input) { nil }
+    subject { console_interface.get_input }
+
+    before do
+      allow(console_interface).to receive(:readline).and_return(user_input)
+    end
+
     context "user types a string" do
-      it "returns the string" do
-        expect(console_interface).to receive(:readline).and_return("valid input\n")
-        expect(console_interface.get_input).to eq("valid input")
-      end
+      let(:user_input) { "valid input\n" }
+      let(:parsed_input) { "valid input" }
+
+      it { is_expected.to eq(parsed_input) }
     end
 
     context "user types a char" do
-      it "returns char" do
-        expect(console_interface).to receive(:readline).and_return("4\n")
-        expect(console_interface.get_input).to eq("4")
-      end
+      let(:user_input) { "4\n" }
+      let(:parsed_input) { "4" }
+
+      it { is_expected.to eq(parsed_input) }
     end
 
     context "user hits enter" do
       let(:user_input) { "\n" }
-      it "returns \"\"" do
-        expect(console_interface).to receive(:readline).and_return("\n")
-        expect(console_interface.get_input).to eq("")
-      end
+      let(:parsed_input) { "" }
+
+      it { is_expected.to eq(parsed_input) }
     end
   end
 
   describe "#display_output" do
-    it "calls puts" do
-      expect(console_interface).to receive(:puts).with("sample data")
-      console_interface.display_output("sample data")
+    let(:output) { "sample data" }
+
+    it "passes the string to puts()" do
+      expect(console_interface).to receive(:puts).with(output)
+      console_interface.display_output(output)
     end
   end
-
 end

@@ -20,8 +20,7 @@ class Game
   end
 
   def lives_left
-    # TODO: initial lives - incorrect guesses, make method
-    INITIAL_NUMBER_OF_LIVES - @guessed_letters.size + correct_guess_count
+    INITIAL_NUMBER_OF_LIVES - incorrect_guess_count
   end
 
   def masked_letters
@@ -50,9 +49,17 @@ class Game
   end
 
   private
-  
+
+  def total_guess_count
+    @guessed_letters.size
+  end
+
   def correct_guess_count
     (masked_letters.uniq - [nil]).size
+  end
+
+  def incorrect_guess_count
+    total_guess_count - correct_guess_count
   end
 end
 

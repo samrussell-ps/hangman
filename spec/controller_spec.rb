@@ -12,14 +12,14 @@ RSpec.describe Controller do
   # turns it into a word for display
   # ... belongs to the View?
   # common prefix = possibly needs its own class
-  describe "#masked_word" do
-    subject { controller.masked_word }
+  describe "GamePresenter" do
+    subject { Controller::GamePresenter.new(game).to_s }
 
     context "with no guesses" do
       it { is_expected.to eq(".......") }
     end
 
-    context "with \"A\" guessed" do
+    context "with 'A' guessed" do
       before { game.guess_letter("A") }
       it { is_expected.to eq(".A..A..") }
     end
@@ -38,10 +38,14 @@ RSpec.describe Controller do
       controller.run
     end
     
-    context "when user enters \"a\"" do
+    # things to test
+    # - "display_error" - some exception when the letter has been guessed
+    # - as above - some exception that the input isn't a valid character
+    # - neither when valid data is entered
+    context "when user enters 'a'" do
       let(:user_input) { "a" }
 
-      it "passes \"A\" to Game#guess_letter" do
+      it "passes 'A' to Game#guess_letter" do
         expect(game).to receive(:guess_letter).with("A")
       end
 
@@ -50,7 +54,7 @@ RSpec.describe Controller do
       end
     end
 
-    context "when user enters \"7\"" do
+    context "when user enters '7'" do
       let(:user_input) { "7" }
 
       it "doesn't pass anything to Game#guess_letter" do
