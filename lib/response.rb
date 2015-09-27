@@ -1,8 +1,15 @@
 # This class contains output for the user
 # It contains
 # - a prompt
-# - any errors/alerts
 class Response
+  attr_reader :prompt
+
+  def initialize(prompt)
+    @prompt = prompt
+  end
+end
+
+class ErrorResponse < Response
   attr_reader :prompt
   attr_reader :alert
 

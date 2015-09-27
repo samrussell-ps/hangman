@@ -1,8 +1,6 @@
-# TODO: change to GuessedLetter
 class GuessedLetter
   # wraps a string of input from user
   # has bool for "valid"
-  # returns "groom" data (i.e. uppercase)
   def initialize(text_from_user)
     @text_from_user = text_from_user.to_s
   end

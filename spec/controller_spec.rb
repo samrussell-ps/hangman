@@ -3,11 +3,31 @@ require "controller"
 require "game"
 require "console_interface"
 require "response"
+require "user_talker"
 
 RSpec.describe Controller do
   let(:game) { Game.new("SAUSAGE") }
   let(:user_interface) { ConsoleInterface.new }
-  subject(:controller) { Controller.new(game, user_interface) }
+  let(:user_talker) { UserTalker.new(user_interface) }
+  subject(:controller) { Controller.new(game, user_talker) }
+
+  describe "#run" do
+    before do
+      allow(game).to receive(:finished?).and_return(false, true)
+    end
+    
+    after do
+      controller.run
+    end
+    
+    it "gets input" do
+      expect(user_talker).to receive(:data_from_user)
+    end
+
+    it "prompts the user" do
+      expect(user_talker).to receive(:prompt_user)
+    end
+  end
 
   # this takes masked_letters from Game
   # turns it into a word for display
@@ -23,48 +43,6 @@ RSpec.describe Controller do
     context "with 'A' guessed" do
       before { game.guess_letter("A") }
       it { is_expected.to eq(".A..A..") }
-    end
-  end
-
-  describe "#run" do
-    let(:user_input) { nil }
-
-    before do
-      allow(game).to receive(:finished?).and_return(false, true)
-      allow(user_interface).to receive(:get_input).and_return(user_input)
-      allow(user_interface).to receive(:display_output)
-    end
-    
-    after do
-      controller.run
-    end
-    
-    # things to test
-    # - "display_error" - some exception when the letter has been guessed
-    # - as above - some exception that the input isn't a valid character
-    # - neither when valid data is entered
-    context "when user enters 'a'" do
-      let(:user_input) { "a" }
-
-      it "passes 'A' to Game#guess_letter" do
-        expect(game).to receive(:guess_letter).with("A")
-      end
-
-      it "passes a Response object to ConsoleInterface#display_output" do
-        expect(user_interface).to receive(:display_output).with(an_instance_of(Response))
-      end
-    end
-
-    context "when user enters '7'" do
-      let(:user_input) { "7" }
-
-      it "doesn't pass anything to Game#guess_letter" do
-        expect(game).to_not receive(:guess_letter)
-      end
-
-      it "calls ConsoleInterface#display_output at least once" do
-        expect(user_interface).to receive(:display_output).at_least(:once)
-      end
     end
   end
 end

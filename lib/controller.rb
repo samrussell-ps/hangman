@@ -6,9 +6,9 @@ require "delegate"
 # - Retrieves information from a Game
 # - Produces user output based on this information
 class Controller
-  def initialize(game, user_interface)
+  def initialize(game, user_talker)
     @game = GamePresenter.new(game)
-    @user_interface = user_interface
+    @user_talker = user_talker
   end
 
   # this is almost too small to have its own class
@@ -29,12 +29,12 @@ class Controller
       # then pass the whole thing to user_interface
       # @user_interface.display_output(Response.new(prompt, alert if ...))
 
-      guessed_letter = GuessedLetter.new(@user_interface.get_input)
+      guessed_letter = @user_talker.data_from_user
 
-      next unless guessed_letter.valid?
+      next unless guessed_letter
 
       if @game.letter_has_been_guessed?(guessed_letter.to_s)
-        @user_interface.display_output("You have already guessed that letter!")
+        @user_talker.error = "You have already guessed that letter!"
       else
         @game.guess_letter(guessed_letter.to_s)
       end
