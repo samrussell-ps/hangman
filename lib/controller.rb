@@ -25,6 +25,9 @@ class Controller
       prompt += "The word so far: #{@game}"
       prompt += "You have #{@game.lives_left} lives left"
       prompt += "Guess a letter"
+      # should look at the alert status from last time
+      # then pass the whole thing to user_interface
+      # @user_interface.display_output(Response.new(prompt, alert if ...))
 
       guessed_letter = GuessedLetter.new(@user_interface.get_input)
 
