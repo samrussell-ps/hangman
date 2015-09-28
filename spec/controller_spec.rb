@@ -33,13 +33,24 @@ RSpec.describe Controller do
 
     context "when letter hasn't been guessed" do
       it "guesses the letter" do
-        # TODO
+        allow(user_talker).to receive(:data_from_user).and_return('A')
+        expect(game).to receive(:guess_letter)
       end
     end
 
     context "when letter has been guessed" do
+      before do
+        game.guess_letter("A")
+      end
+
+      after do
+      end
+
       it "sets an error" do
-        # TODO
+        expect(user_talker).to receive(:data_from_user).and_return("A")
+        expect(game).to_not receive(:guess_letter)
+        controller.run
+        expect(user_talker.error).to be
       end
     end
   end
