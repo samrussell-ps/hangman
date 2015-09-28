@@ -32,6 +32,11 @@ RSpec.describe UserTalker do
 
   # test direct public side effects
   describe "#game_finished_message" do
+    before do
+      allow(game).to receive(:won?).and_return(true)
+      allow(game).to receive(:lost?).and_return(false)
+    end
+
     it "Sends a GameFinishedResponse to ConsoleInterface#display_output" do
       expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedResponse))
       user_talker.game_finished_message
