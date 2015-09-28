@@ -5,10 +5,12 @@ class GuessedLetter
     @text_from_user = text_from_user.to_s
   end
 
+  # query
   def to_s
     @text_from_user.upcase
   end
   
+  # query
   def valid?
     input_is_a_single_letter?
   end

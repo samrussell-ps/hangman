@@ -4,6 +4,7 @@ class Controller
     @user_talker = user_talker
   end
 
+  # command
   def run
     until @game.finished? do
       @user_talker.prompt_user

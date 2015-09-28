@@ -21,19 +21,25 @@ RSpec.describe Controller do
       allow(user_talker).to receive(:prompt_user)
       allow(user_talker).to receive(:game_finished_message)
     end
-    
+
+    # test outgoing command
     it "gets input" do
+      # don't and_call_original as it relies on stdin
       expect(user_talker).to receive(:letter_from_user)
       controller.run
     end
 
+    # test outgoing command
     it "prompts the user" do
+      # don't and_call_original as it relies on stdout
       expect(user_talker).to receive(:prompt_user)
       controller.run
     end
 
+    # test outgoing command
     context "when letter hasn't been guessed" do
       it "guesses the letter" do
+        # don't and_call_original as it relies on stdin
         allow(user_talker).to receive(:letter_from_user).and_return('A')
         expect(game).to receive(:guess_letter)
         controller.run

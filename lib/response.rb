@@ -8,6 +8,7 @@ class GameContinueResponse < Response
     @game = GamePresenter.new(game)
   end
 
+  # query
   def to_s
     prompt
   end
@@ -21,6 +22,7 @@ class GameContinueResponse < Response
   end
 
   class GamePresenter < SimpleDelegator
+    # query
     def to_s
       masked_letters.map { |letter| if letter then letter else "." end }.join
     end
@@ -33,6 +35,7 @@ class GameContinueWithAlertResponse < GameContinueResponse
     @alert = alert
   end
 
+  # query
   def to_s
     @alert + "\n" + prompt
   end
@@ -43,6 +46,7 @@ class GameFinishedResponse < Response
     @game = game
   end
 
+  # query
   def result
     "The word was #{@game.word}"
   end
@@ -53,6 +57,7 @@ class GameFinishedWonResponse < GameFinishedResponse
     super(game)
   end
 
+  # query
   def to_s
     "You won!\n" + result
   end
@@ -63,6 +68,7 @@ class GameFinishedLostResponse < GameFinishedResponse
     super(game)
   end
 
+  # query
   def to_s
     "You lost!\n" + result
   end

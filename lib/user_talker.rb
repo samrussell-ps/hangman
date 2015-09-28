@@ -11,6 +11,7 @@ class UserTalker
     @user_interface = user_interface
   end
 
+  # command
   def prompt_user
     if alert
       @user_interface.display_output(GameContinueWithAlertResponse.new(@game, alert))
@@ -21,6 +22,7 @@ class UserTalker
     end
   end
 
+  # command
   def game_finished_message
     if @game.won?
       @user_interface.display_output(GameFinishedWonResponse.new(@game))
@@ -29,6 +31,7 @@ class UserTalker
     end
   end
 
+  # query
   def letter_from_user
     guessed_letter = GuessedLetter.new(@user_interface.get_input)
 

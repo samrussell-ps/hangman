@@ -6,15 +6,17 @@ require "game"
 # this is a really thin wrapper for $stdin
 # it will make porting to Rails easier
 RSpec.describe ConsoleInterface do
-  let(:game) { Game.new("SAUSAGE") }
   subject(:console_interface) { ConsoleInterface.new }
 
+  # query
+  # assert result
   describe "#get_input" do
     let(:user_input) { nil }
     let(:parsed_input) { nil }
     subject { console_interface.get_input }
 
     before do
+      # keep away from stdin
       allow(console_interface).to receive(:readline).and_return(user_input)
     end
 
@@ -40,11 +42,14 @@ RSpec.describe ConsoleInterface do
     end
   end
 
+  # command
+  # assert direct public side effects
   describe "#display_output" do
-    let(:output) { GameContinueResponse.new(game) }
+    let(:output) { "test output" }
 
     it "prints output to puts()" do
-      expect(console_interface).to receive(:puts)
+      # don't do .and_call_original() as we don't want stdout
+      expect(console_interface).to receive(:puts).with(output)
       console_interface.display_output(output)
     end
   end

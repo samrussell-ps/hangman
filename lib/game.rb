@@ -19,31 +19,38 @@ class Game
     @guessed_letters = Set.new
   end
 
+  # query
   def lives_left
     INITIAL_NUMBER_OF_LIVES - incorrect_guess_count
   end
 
+  # query
   def masked_letters
     # returns an array showing the word with un-guessed letters replaced with nil
     @word.chars.map { |char| if @guessed_letters.include?(char) then char else nil end }
   end
 
+  # query
   def letter_has_been_guessed?(letter)
     @guessed_letters.include?(letter)
   end
 
+  # command
   def guess_letter(letter)
     @guessed_letters.add(letter)
   end
 
+  # query
   def won?
     !masked_letters.include?(nil)
   end
 
+  # query
   def lost?
     lives_left == 0
   end
 
+  # query
   def finished?
     won? || lost?
   end
