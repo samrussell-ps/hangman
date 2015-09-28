@@ -4,10 +4,11 @@ require "guessed_letter"
 require "game"
 
 RSpec.describe UserTalker do
-  let(:game) { Game.new("SAUSAGE") }
-  let(:user_interface) { ConsoleInterface.new }
+  let(:game) { instance_double("Game") }
+  let(:user_interface) { instance_double("ConsoleInterface") }
   subject(:user_talker) { UserTalker.new(game, user_interface) }
 
+  # test direct public side effects
   describe "#prompt_user" do
     context "there is an alert" do
       before do
@@ -29,6 +30,7 @@ RSpec.describe UserTalker do
     end
   end
 
+  # test direct public side effects
   describe "#game_finished_message" do
     it "Sends a GameFinishedResponse to ConsoleInterface#display_output" do
       expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedResponse))
@@ -60,6 +62,7 @@ RSpec.describe UserTalker do
     end
   end
 
+  # test result
   describe "#letter_from_user" do
     let(:user_input) { nil }
     subject(:letter_from_user) { user_talker.letter_from_user }

@@ -2,6 +2,7 @@ require "spec_helper"
 require "random_word_generator"
 
 RSpec.describe RandomWordGenerator do
+  # test result
   describe "#random_word" do
     let(:test_words_count) { 50 }
     let(:minimum_unique_words_count) { 40 }

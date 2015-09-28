@@ -5,6 +5,7 @@ RSpec.describe GuessedLetter do
   let(:user_data) { nil }
   let(:guessed_letter) { GuessedLetter.new(user_data) }
 
+  # test result
   describe "#valid?" do
     subject { guessed_letter.valid? }
 
@@ -38,6 +39,8 @@ RSpec.describe GuessedLetter do
       it { is_expected.to be true }
     end
   end
+
+  # test result
   describe "#to_s" do
     subject { guessed_letter.to_s }
 
