@@ -16,6 +16,7 @@ RSpec.describe GameContinueResponse do
     subject(to_s) { response.to_s }
 
     it { is_expected.to be_an_instance_of(String) }
+
     it "is longer than 0 characters" do
       expect(to_s.size).to be > 0
     end
@@ -39,6 +40,7 @@ RSpec.describe GameContinueResponse do
         allow(game).to receive(:masked_letters).and_return([nil, "A", nil,
                                                           nil, "A", nil, nil])
       end
+
       it { is_expected.to eq(".A..A..") }
     end
   end
@@ -59,6 +61,7 @@ RSpec.describe GameContinueWithAlertResponse do
     subject(to_s) { response.to_s }
 
     it { is_expected.to be_an_instance_of(String) }
+
     it "is longer than 0 characters" do
       expect(to_s.size).to be > 0
     end
@@ -78,6 +81,7 @@ RSpec.describe GameFinishedWonResponse do
     subject(to_s) { response.to_s }
 
     it { is_expected.to be_an_instance_of(String) }
+
     it "is longer than 0 characters" do
       expect(to_s.size).to be > 0
     end
@@ -97,6 +101,7 @@ RSpec.describe GameFinishedLostResponse do
     subject(to_s) { response.to_s }
 
     it { is_expected.to be_an_instance_of(String) }
+
     it "is longer than 0 characters" do
       expect(to_s.size).to be > 0
     end

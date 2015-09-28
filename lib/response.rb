@@ -32,6 +32,7 @@ end
 class GameContinueWithAlertResponse < GameContinueResponse
   def initialize(game, alert)
     super(game)
+
     @alert = alert
   end
 

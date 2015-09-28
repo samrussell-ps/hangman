@@ -67,11 +67,13 @@ RSpec.describe Game do
 
       context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
+
         it { is_expected.to eq(Game::INITIAL_NUMBER_OF_LIVES) }
       end
 
       context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
+
         it { is_expected.to eq(Game::INITIAL_NUMBER_OF_LIVES - 1) }
       end
 
@@ -174,6 +176,7 @@ RSpec.describe Game do
 
       context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
+
         it { is_expected.to be_falsey }
       end
 

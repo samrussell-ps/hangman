@@ -50,6 +50,7 @@ RSpec.describe ConsoleInterface do
     it "prints output to puts()" do
       # don't do .and_call_original() as we don't want stdout
       expect(console_interface).to receive(:puts).with(output)
+
       console_interface.display_output(output)
     end
   end

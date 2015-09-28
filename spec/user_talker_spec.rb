@@ -17,6 +17,7 @@ RSpec.describe UserTalker do
       
       it "Sends a GameContinueWithAlertResponse to ConsoleInterface#display_output" do
         expect(user_interface).to receive(:display_output).with(an_instance_of(GameContinueWithAlertResponse))
+
         user_talker.prompt_user
       end
     end
@@ -25,6 +26,7 @@ RSpec.describe UserTalker do
       it "Sends a GameContinueResponse to ConsoleInterface#display_output" do
         expect(user_talker.alert).to_not be
         expect(user_interface).to receive(:display_output).with(an_instance_of(GameContinueResponse))
+
         user_talker.prompt_user
       end
     end
@@ -39,6 +41,7 @@ RSpec.describe UserTalker do
 
     it "Sends a GameFinishedResponse to ConsoleInterface#display_output" do
       expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedResponse))
+
       user_talker.game_finished_message
     end
 
@@ -50,6 +53,7 @@ RSpec.describe UserTalker do
 
       it "Sends a GameFinishedWonResponse to ConsoleInterface#display_output" do
         expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedWonResponse))
+
         user_talker.game_finished_message
       end
     end
@@ -62,6 +66,7 @@ RSpec.describe UserTalker do
 
       it "Sends a GameFinishedLostResponse to ConsoleInterface#display_output" do
         expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedLostResponse))
+
         user_talker.game_finished_message
       end
     end
@@ -80,6 +85,7 @@ RSpec.describe UserTalker do
       let(:user_input) { "a" }
 
       it { is_expected.to be_an_instance_of(String) }
+
       it "gives 'A' as a string" do
         expect(letter_from_user).to eq("A")
       end

@@ -26,6 +26,7 @@ RSpec.describe Controller do
     it "gets input" do
       # don't and_call_original as it relies on stdin
       expect(user_talker).to receive(:letter_from_user)
+
       controller.run
     end
 
@@ -33,6 +34,7 @@ RSpec.describe Controller do
     it "prompts the user" do
       # don't and_call_original as it relies on stdout
       expect(user_talker).to receive(:prompt_user)
+
       controller.run
     end
 
@@ -43,6 +45,7 @@ RSpec.describe Controller do
         expect(user_talker).to receive(:letter_from_user).and_return("A")
         expect(game).to receive(:letter_has_been_guessed?).with("A").and_return(false)
         expect(game).to receive(:guess_letter)
+
         controller.run
       end
     end
@@ -55,6 +58,7 @@ RSpec.describe Controller do
         expect(game).to receive(:letter_has_been_guessed?).with("A").and_return(true)
         expect(game).to_not receive(:guess_letter)
         expect(user_talker).to receive(:alert=)
+
         controller.run
       end
     end
