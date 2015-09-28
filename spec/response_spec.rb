@@ -15,16 +15,6 @@ end
 
 RSpec.describe ErrorResponse do
   describe "#initialize" do
-    context "with a prompt, no alert" do
-      subject(:response) { ErrorResponse.new("test response") }
-
-      it "has a prompt" do
-        expect(response.prompt).to be_a_kind_of(String)
-      end
-      it "doesn't have an alert" do
-        expect(response.alert).to_not be
-      end
-    end
     context "with a prompt and an alert" do
       subject(:response) { ErrorResponse.new("test response", "alert") }
 

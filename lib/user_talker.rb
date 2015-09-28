@@ -1,22 +1,32 @@
-require "console_interface"
-require "response"
-require "guessed_letter"
+require "./lib/console_interface"
+require "./lib/response"
+require "./lib/guessed_letter"
 
 class UserTalker
   attr_accessor :error
 
-  def initialize(user_interface)
+  def initialize(game, user_interface)
+    @game = GamePresenter.new(game)
     @user_interface = user_interface
   end
 
-  def prompt_user(prompt)
+  def prompt_user
     if error
-      error = nil
+      @user_interface.display_output(ErrorResponse.new(game_state_prompt, error))
 
-      @user_interface.display_output(ErrorResponse.new(prompt, error))
+      error = nil
     else
-      @user_interface.display_output(Response.new(prompt))
+      @user_interface.display_output(Response.new(game_state_prompt))
     end
+  end
+
+  def game_finished_message
+    if @game.won?
+      success_status_message = "Congratulations, you won\n"
+    else
+      success_status_message = "Awww, you lost!\n"
+    end
+    @user_interface.display_output(Response.new(success_status_message + "The word was #{@game.word}"))
   end
 
   def data_from_user
@@ -25,6 +35,21 @@ class UserTalker
       guessed_letter
     else
       nil
+    end
+  end
+
+  private
+
+  def game_state_prompt
+    prompt = ""
+    prompt += "The word so far: #{@game}\n"
+    prompt += "You have #{@game.lives_left} lives left\n"
+    prompt += "Guess a letter\n"
+  end
+
+  class GamePresenter < SimpleDelegator
+    def to_s
+      masked_letters.map { |letter| if letter then letter else "." end }.join
     end
   end
 end
