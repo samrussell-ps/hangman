@@ -62,4 +62,3 @@ class Game
     total_guess_count - correct_guess_count
   end
 end
-

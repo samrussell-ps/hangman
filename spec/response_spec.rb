@@ -5,18 +5,15 @@ RSpec.describe GameContinueResponse do
   let(:game) { Game.new("SAUSAGE") }
   let(:response) { GameContinueResponse.new(game) }
 
-  it "returns a string" do
-    expect(response.to_s).to be_an_instance_of(String)
+  describe "#to_s" do
+    subject(to_s) { response.to_s }
+
+    it { is_expected.to be_an_instance_of(String) }
+    it "is longer than 0 characters" do
+      expect(to_s.size).to be > 0
+    end
   end
 
-  it "is longer than 0 characters" do
-    expect(response.to_s.size).to be > 0
-  end
-
-  # this takes masked_letters from Game
-  # turns it into a word for display
-  # ... belongs to the View?
-  # common prefix = possibly needs its own class
   describe "GamePresenter" do
     subject { GameContinueResponse::GamePresenter.new(game).to_s }
 
@@ -35,12 +32,13 @@ RSpec.describe GameContinueWithAlertResponse do
   let(:game) { Game.new("SAUSAGE") }
   let(:response) { GameContinueWithAlertResponse.new(game, 'alert string') }
 
-  it "returns a string" do
-    expect(response.to_s).to be_an_instance_of(String)
-  end
+  describe "#to_s" do
+    subject(to_s) { response.to_s }
 
-  it "is longer than 0 characters" do
-    expect(response.to_s.size).to be > 0
+    it { is_expected.to be_an_instance_of(String) }
+    it "is longer than 0 characters" do
+      expect(to_s.size).to be > 0
+    end
   end
 end
 
@@ -48,12 +46,13 @@ RSpec.describe GameFinishedWonResponse do
   let(:game) { Game.new("SAUSAGE") }
   let(:response) { GameFinishedWonResponse.new(game) }
 
-  it "returns a string" do
-    expect(response.to_s).to be_an_instance_of(String)
-  end
+  describe "#to_s" do
+    subject(to_s) { response.to_s }
 
-  it "is longer than 0 characters" do
-    expect(response.to_s.size).to be > 0
+    it { is_expected.to be_an_instance_of(String) }
+    it "is longer than 0 characters" do
+      expect(to_s.size).to be > 0
+    end
   end
 end
 
@@ -61,11 +60,12 @@ RSpec.describe GameFinishedLostResponse do
   let(:game) { Game.new("SAUSAGE") }
   let(:response) { GameFinishedLostResponse.new(game) }
 
-  it "returns a string" do
-    expect(response.to_s).to be_an_instance_of(String)
-  end
+  describe "#to_s" do
+    subject(to_s) { response.to_s }
 
-  it "is longer than 0 characters" do
-    expect(response.to_s.size).to be > 0
+    it { is_expected.to be_an_instance_of(String) }
+    it "is longer than 0 characters" do
+      expect(to_s.size).to be > 0
+    end
   end
 end

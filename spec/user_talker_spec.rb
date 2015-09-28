@@ -13,63 +13,56 @@ RSpec.describe UserTalker do
       before do
         user_talker.error = "This is an error"
       end
-
-      after do
-        user_talker.prompt_user
-      end
-
-      it "Sends a GameContinueWithAlertResponse to ConsoleInterface" do
+      
+      it "Sends a GameContinueWithAlertResponse to ConsoleInterface#display_output" do
         expect(user_interface).to receive(:display_output).with(an_instance_of(GameContinueWithAlertResponse))
+        user_talker.prompt_user
       end
     end
 
     context "there is no error" do
-      after do
-        user_talker.prompt_user
-      end
-
-      it "Sends a GameContinueResponse to ConsoleInterface" do
+      it "Sends a GameContinueResponse to ConsoleInterface#display_output" do
         expect(user_talker.error).to_not be
         expect(user_interface).to receive(:display_output).with(an_instance_of(GameContinueResponse))
+        user_talker.prompt_user
       end
     end
   end
 
   describe "#game_finished_message" do
-      after do
+    it "Sends a GameFinishedResponse to ConsoleInterface#display_output" do
+      expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedResponse))
+      user_talker.game_finished_message
+    end
+
+    context "When game is won" do
+      before do
+        allow(game).to receive(:won?).and_return(true)
+        allow(game).to receive(:lost?).and_return(false)
+      end
+
+      it "Sends a GameFinishedWonResponse to ConsoleInterface#display_output" do
+        expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedWonResponse))
         user_talker.game_finished_message
       end
+    end
 
-      it "Sends a GameFinishedResponse to ConsoleInterface" do
-        expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedResponse))
+    context "When game is lost" do
+      before do
+        allow(game).to receive(:lost?).and_return(true)
+        allow(game).to receive(:won?).and_return(false)
       end
 
-      context "When game is won" do
-        before do
-          allow(game).to receive(:won?).and_return(true)
-          allow(game).to receive(:lost?).and_return(false)
-        end
-
-        it "Sends a GameFinishedWonResponse to ConsoleInterface" do
-          expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedWonResponse))
-        end
+      it "Sends a GameFinishedLostResponse to ConsoleInterface#display_output" do
+        expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedLostResponse))
+        user_talker.game_finished_message
       end
-
-      context "When game is lost" do
-        before do
-          allow(game).to receive(:lost?).and_return(true)
-          allow(game).to receive(:won?).and_return(false)
-        end
-
-        it "Sends a GameFinishedLostResponse to ConsoleInterface" do
-          expect(user_interface).to receive(:display_output).with(a_kind_of(GameFinishedLostResponse))
-        end
-      end
+    end
   end
 
   describe "#letter_from_user" do
     let(:user_input) { nil }
-    subject(:data_from_user) { user_talker.data_from_user }
+    subject(:letter_from_user) { user_talker.letter_from_user }
 
     before do
       allow(user_interface).to receive(:get_input).and_return(user_input)
@@ -78,9 +71,9 @@ RSpec.describe UserTalker do
     context "when user enters 'a'" do
       let(:user_input) { "a" }
 
-      it { is_expected.to be_an_instance_of(GuessedLetter) }
+      it { is_expected.to be_an_instance_of(String) }
       it "gives 'A' as a string" do
-        expect(data_from_user.to_s).to eq("A")
+        expect(letter_from_user).to eq("A")
       end
     end
 

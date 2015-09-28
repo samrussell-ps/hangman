@@ -13,28 +13,30 @@ RSpec.describe Controller do
 
   describe "#run" do
     before do
+      # run through the loop once
       allow(game).to receive(:finished?).and_return(false, true)
-      allow(user_talker).to receive(:data_from_user)
+
+      # mock user_talker to not bump stdin/stdout
+      allow(user_talker).to receive(:letter_from_user)
       allow(user_talker).to receive(:prompt_user)
       allow(user_talker).to receive(:game_finished_message)
     end
     
-    after do
-      controller.run
-    end
-    
     it "gets input" do
-      expect(user_talker).to receive(:data_from_user)
+      expect(user_talker).to receive(:letter_from_user)
+      controller.run
     end
 
     it "prompts the user" do
       expect(user_talker).to receive(:prompt_user)
+      controller.run
     end
 
     context "when letter hasn't been guessed" do
       it "guesses the letter" do
-        allow(user_talker).to receive(:data_from_user).and_return('A')
+        allow(user_talker).to receive(:letter_from_user).and_return('A')
         expect(game).to receive(:guess_letter)
+        controller.run
       end
     end
 
@@ -43,11 +45,8 @@ RSpec.describe Controller do
         game.guess_letter("A")
       end
 
-      after do
-      end
-
       it "sets an error" do
-        expect(user_talker).to receive(:data_from_user).and_return("A")
+        expect(user_talker).to receive(:letter_from_user).and_return("A")
         expect(game).to_not receive(:guess_letter)
         controller.run
         expect(user_talker.error).to be

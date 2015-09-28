@@ -29,11 +29,11 @@ class UserTalker
     end
   end
 
-  def data_from_user
+  def letter_from_user
     guessed_letter = GuessedLetter.new(@user_interface.get_input)
 
     if guessed_letter.valid?
-      guessed_letter
+      guessed_letter.to_s
     else
       nil
     end
