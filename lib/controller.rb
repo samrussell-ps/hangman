@@ -13,7 +13,7 @@ class Controller
       next unless guessed_letter
 
       if @game.letter_has_been_guessed?(guessed_letter)
-        @user_talker.error = "You have already guessed that letter!"
+        @user_talker.alert = "You have already guessed that letter!"
       else
         @game.guess_letter(guessed_letter)
       end

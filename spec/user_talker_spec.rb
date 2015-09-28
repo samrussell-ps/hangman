@@ -9,9 +9,9 @@ RSpec.describe UserTalker do
   subject(:user_talker) { UserTalker.new(game, user_interface) }
 
   describe "#prompt_user" do
-    context "there is an error" do
+    context "there is an alert" do
       before do
-        user_talker.error = "This is an error"
+        user_talker.alert = "This is an alert"
       end
       
       it "Sends a GameContinueWithAlertResponse to ConsoleInterface#display_output" do
@@ -20,9 +20,9 @@ RSpec.describe UserTalker do
       end
     end
 
-    context "there is no error" do
+    context "there is no alert" do
       it "Sends a GameContinueResponse to ConsoleInterface#display_output" do
-        expect(user_talker.error).to_not be
+        expect(user_talker.alert).to_not be
         expect(user_interface).to receive(:display_output).with(an_instance_of(GameContinueResponse))
         user_talker.prompt_user
       end

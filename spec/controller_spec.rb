@@ -45,11 +45,11 @@ RSpec.describe Controller do
         game.guess_letter("A")
       end
 
-      it "sets an error" do
+      it "sets an alert" do
         expect(user_talker).to receive(:letter_from_user).and_return("A")
         expect(game).to_not receive(:guess_letter)
         controller.run
-        expect(user_talker.error).to be
+        expect(user_talker.alert).to be
       end
     end
   end

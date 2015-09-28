@@ -4,7 +4,7 @@ require "./lib/guessed_letter"
 require "delegate"
 
 class UserTalker
-  attr_accessor :error
+  attr_accessor :alert
 
   def initialize(game, user_interface)
     @game = game
@@ -12,10 +12,10 @@ class UserTalker
   end
 
   def prompt_user
-    if error
-      @user_interface.display_output(GameContinueWithAlertResponse.new(@game, error))
+    if alert
+      @user_interface.display_output(GameContinueWithAlertResponse.new(@game, alert))
 
-      error = nil
+      alert = nil
     else
       @user_interface.display_output(GameContinueResponse.new(@game))
     end
