@@ -1,28 +1,69 @@
-# This class contains output for the user
-# It contains
-# - a prompt
-class Response
-  attr_reader :prompt
+require "delegate"
 
-  def initialize(prompt)
-    @prompt = prompt
+class Response
+end
+
+class GameContinueResponse < Response
+  def initialize(game)
+    @game = GamePresenter.new(game)
   end
 
   def to_s
-    @prompt
+    prompt
+  end
+
+  private
+
+  def prompt
+    "The word so far: #{@game}\n" +
+    "You have #{@game.lives_left} lives left\n" +
+    "Guess a letter\n"
+  end
+
+  class GamePresenter < SimpleDelegator
+    def to_s
+      masked_letters.map { |letter| if letter then letter else "." end }.join
+    end
   end
 end
 
-class ErrorResponse < Response
-  attr_reader :prompt
-  attr_reader :alert
-
-  def initialize(prompt, alert)
-    @prompt = prompt
+class GameContinueWithAlertResponse < GameContinueResponse
+  def initialize(game, alert)
+    super(game)
     @alert = alert
   end
 
   def to_s
-    @alert + "\n" + @prompt
+    @alert + "\n" + prompt
+  end
+end
+
+class GameFinishedResponse < Response
+  def initialize(game)
+    @game = game
+  end
+
+  def result
+    "The word was #{@game.word}"
+  end
+end
+
+class GameFinishedWonResponse < GameFinishedResponse
+  def initialize(game)
+    super(game)
+  end
+
+  def to_s
+    "You won!\n" + result
+  end
+end
+
+class GameFinishedLostResponse < GameFinishedResponse
+  def initialize(game)
+    super(game)
+  end
+
+  def to_s
+    "You lost!\n" + result
   end
 end

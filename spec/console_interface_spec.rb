@@ -1,10 +1,12 @@
 require "spec_helper"
 require "console_interface"
 require "response"
+require "game"
 
 # this is a really thin wrapper for $stdin
 # it will make porting to Rails easier
 RSpec.describe ConsoleInterface do
+  let(:game) { Game.new("SAUSAGE") }
   subject(:console_interface) { ConsoleInterface.new }
 
   describe "#get_input" do
@@ -39,9 +41,9 @@ RSpec.describe ConsoleInterface do
   end
 
   describe "#display_output" do
-    let(:output) { Response.new("sample data") }
+    let(:output) { GameContinueResponse.new(game) }
 
-    it "passes the string to puts()" do
+    it "prints output to puts()" do
       expect(console_interface).to receive(:puts)
       console_interface.display_output(output)
     end
