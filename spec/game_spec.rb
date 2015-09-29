@@ -143,11 +143,13 @@ RSpec.describe Game do
         it { is_expected.to be_falsey }
       end
 
+      # this assumes INITIAL_NUMBER_OF_LIVES is 9
+      # delete/rewrite if INITIAL_NUMBER_OF_LIVES is changed
       context "after 9 bad guesses" do
         let(:letters_to_guess) { ["A", "B", "D", "F", "S", "W", "X", "Y", "Z"] }
 
         it "assuming the game uses 9 lives or less" do
-          expect(Game::INITIAL_NUMBER_OF_LIVES).to be >= 9
+          expect(Game::INITIAL_NUMBER_OF_LIVES).to be <= 9
         end
 
         it { is_expected.to be_truthy }

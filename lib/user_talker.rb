@@ -1,7 +1,6 @@
 require "./lib/console_interface"
 require "./lib/response"
 require "./lib/guessed_letter"
-require "delegate"
 
 class UserTalker
   attr_accessor :alert

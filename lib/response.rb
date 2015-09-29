@@ -1,6 +1,8 @@
 require "delegate"
 
 class Response
+  def initialize(game, alert=nil)
+  end
 end
 
 class GameContinueResponse < Response
