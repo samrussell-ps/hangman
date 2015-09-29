@@ -1,78 +1,35 @@
 require "delegate"
 
 class Response
-  def initialize(game, alert=nil)
-  end
-end
+  attr_reader :status
 
-class GameContinueResponse < Response
-  def initialize(game)
-    @game = GamePresenter.new(game)
+  def initialize(status, message)
+    @status = status
+    @message = message
   end
 
-  # query
   def to_s
-    prompt
-  end
-
-  private
-
-  def prompt
-    "The word so far: #{@game}\n" +
-    "You have #{@game.lives_left} lives left\n" +
-    "Guess a letter\n"
-  end
-
-  class GamePresenter < SimpleDelegator
-    # query
-    def to_s
-      masked_letters.map { |letter| if letter then letter else "." end }.join
-    end
+    @message
   end
 end
 
-class GameContinueWithAlertResponse < GameContinueResponse
-  def initialize(game, alert)
-    super(game)
+  # TODO
+  #def prompt
+  #  "The word so far: #{@game}\n" +
+  #  "You have #{@game.lives_left} lives left\n" +
+  #  "Guess a letter\n"
+  #end
 
-    @alert = alert
-  end
+  # TODO
+  # this has moved around so many classes!
+  #class GamePresenter < SimpleDelegator
+  #  # query
+  #  def to_s
+  #    masked_letters.map { |letter| if letter then letter else "." end }.join
+  #  end
+  #end
 
-  # query
-  def to_s
-    @alert + "\n" + prompt
-  end
-end
-
-class GameFinishedResponse < Response
-  def initialize(game)
-    @game = game
-  end
-
-  # query
-  def result
-    "The word was #{@game.word}"
-  end
-end
-
-class GameFinishedWonResponse < GameFinishedResponse
-  def initialize(game)
-    super(game)
-  end
-
-  # query
-  def to_s
-    "You won!\n" + result
-  end
-end
-
-class GameFinishedLostResponse < GameFinishedResponse
-  def initialize(game)
-    super(game)
-  end
-
-  # query
-  def to_s
-    "You lost!\n" + result
-  end
-end
+  # TODO
+  #def result
+  #  "The word was #{@game.word}"
+  #end
