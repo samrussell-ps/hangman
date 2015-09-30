@@ -1,4 +1,4 @@
-require "./lib/response"
+require "./lib/input_validator"
 
 class Controller
   def initialize(game, user_interface)
@@ -11,27 +11,35 @@ class Controller
     alert = nil
 
     until @game.finished? do
-      if alert
-        response = Response.new(:continue_with_alert, alert + "test")
-        @user_interface.display_output(response)
+      # new version
+      # shows the user the state of the game
+      # gets input from user
+      # checks the input
+      # alerts the user if input is bad
+      # alerts the user if letter has been guessed
+      # otherwise guesses the letter
+      # when finished
+      # shows the user the final state (won/lost, word)
+      
+      @user_interface.display_game_state
 
-        alert = nil
+      user_input = @user_interface.user_input
+
+      if InputValidator.valid?(user_input)
+        if @game.letter_has_been_guessed?(user_input.upcase)
+          @user_interface.display_alert("Letter has already been guessed")
+        else
+          @game.guess_letter(user_input.upcase)
+        end
       else
-        response = Response.new(:continue, "test")
-        @user_interface.display_output(response)
-      end
-
-      guessed_letter = GuessedLetter.new(@user_interface.get_input)
-
-      next unless guessed_letter.valid?
-
-      if @game.letter_has_been_guessed?(guessed_letter.to_s)
-        alert = "You have already guessed that letter!\n"
-      else
-        @game.guess_letter(guessed_letter.to_s)
+        @user_interface.display_alert("Invalid data")
       end
     end
 
-    #@user_talker.game_finished_message
+    if @game.won?
+      @user_interface.display_game_won_message
+    else
+      @user_interface.display_game_lost_message
+    end
   end
 end

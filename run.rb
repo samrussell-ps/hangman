@@ -1,11 +1,10 @@
 require "./lib/controller"
 require "./lib/game"
-require "./lib/console_interface"
-require "./lib/user_talker"
+require "./lib/user_interface"
 require "./lib/random_word_generator"
 
 game = Game.new(RandomWordGenerator.random_word.upcase)
 
-user_talker = UserTalker.new(game, ConsoleInterface.new)
+user_interface = UserInterface.new(game)
 
-Controller.new(game, user_talker).run
+Controller.new(game, user_interface).run

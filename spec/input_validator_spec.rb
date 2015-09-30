@@ -1,13 +1,14 @@
 require "spec_helper"
-require "guessed_letter"
+require "input_validator"
 
-RSpec.describe GuessedLetter do
+RSpec.describe InputValidator do
   let(:user_data) { nil }
-  let(:guessed_letter) { GuessedLetter.new(user_data) }
+  let(:input_validator) { InputValidator }
 
   # test result
   describe "#valid?" do
-    subject { guessed_letter.valid? }
+    let(:user_data) { nil }
+    subject { input_validator.valid?(user_data) }
 
     context "with a string of length 2" do
       let(:user_data) { "AB" }
@@ -37,23 +38,6 @@ RSpec.describe GuessedLetter do
       let(:user_data) { "C" }
 
       it { is_expected.to be true }
-    end
-  end
-
-  # test result
-  describe "#to_s" do
-    subject { guessed_letter.to_s }
-
-    context "with a lowercase character" do
-      let(:user_data) { "c" }
-
-      it { is_expected.to eq("C") }
-    end
-    
-    context "with an uppercase character" do
-      let(:user_data) { "C" }
-
-      it { is_expected.to eq("C") }
     end
   end
 end

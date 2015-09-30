@@ -23,8 +23,8 @@ RSpec.describe Game do
           expect(game.lives_left).to eq(Game::INITIAL_NUMBER_OF_LIVES)
         end
 
-        it "uncovers the letter in #masked_letters" do
-          expect(game.masked_letters.include?("E")).to be_truthy
+        it "uncovers the letter in #word_progress" do
+          expect(game.word_progress.include?("E")).to be_truthy
         end
       end
 
@@ -37,8 +37,8 @@ RSpec.describe Game do
           expect(game.lives_left).to eq(Game::INITIAL_NUMBER_OF_LIVES - 1)
         end
 
-        it "doesn't uncover letters in #masked_letters" do
-          expect(game.masked_letters.include?("A")).to be_falsey
+        it "doesn't uncover letters in #word_progress" do
+          expect(game.word_progress.include?("A")).to be_falsey
         end
       end
 
@@ -91,8 +91,8 @@ RSpec.describe Game do
     end
     
     # test result
-    describe "#masked_letters" do
-      subject { game.masked_letters }
+    describe "#word_progress" do
+      subject { game.word_progress }
 
       context "at start of game" do
         it { is_expected.to eq([nil, nil, nil, nil, nil, nil, nil, nil, nil]) }
@@ -120,6 +120,39 @@ RSpec.describe Game do
         let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
         
         it { is_expected.to eq(["T", "E", "L", "E", "P", "H", "O", "N", "E"]) }
+      end
+    end
+
+    # test result
+    describe "#word_progress_string" do
+      subject { game.word_progress_string }
+
+      context "at start of game" do
+        it { is_expected.to eq("_________") }
+      end
+
+      context "after guessing 'E'" do
+        let(:letters_to_guess) { ["E"] }
+
+        it { is_expected.to eq("_E_E____E") }
+      end
+
+      context "after guessing 'X'" do
+        let(:letters_to_guess) { ["X"] }
+        
+        it { is_expected.to eq("_________") }
+      end
+
+      context "after 9 bad guesses" do
+        let(:letters_to_guess) { ["A", "B", "D", "F", "S", "W", "X", "Y", "Z"] }
+
+        it { is_expected.to eq("_________") }
+      end
+
+      context "after guessing the word, no bad guesses" do
+        let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
+        
+        it { is_expected.to eq("TELEPHONE") }
       end
     end
 

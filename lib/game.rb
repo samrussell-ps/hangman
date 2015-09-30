@@ -25,10 +25,16 @@ class Game
   end
 
   # query
-  def masked_letters
+  def word_progress
     # returns an array showing the word with un-guessed letters replaced with nil
     @word.chars.map { |char| if @guessed_letters.include?(char) then char else nil end }
   end
+
+  # query
+  def word_progress_string
+    word_progress.map { | char | if char then char else "_" end }.join
+  end
+
 
   # query
   def letter_has_been_guessed?(letter)
@@ -42,7 +48,7 @@ class Game
 
   # query
   def won?
-    !masked_letters.include?(nil)
+    !word_progress.include?(nil)
   end
 
   # query
@@ -62,7 +68,7 @@ class Game
   end
 
   def correct_guess_count
-    (masked_letters.uniq - [nil]).size
+    (word_progress.uniq - [nil]).size
   end
 
   def incorrect_guess_count
