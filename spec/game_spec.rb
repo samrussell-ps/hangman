@@ -23,8 +23,8 @@ RSpec.describe Game do
           expect(game.lives_left).to eq(Game::INITIAL_NUMBER_OF_LIVES)
         end
 
-        it "uncovers the letter in #word_progress" do
-          expect(game.word_progress.include?("E")).to be_truthy
+        it "uncovers the letter in #word_progress_string" do
+          expect(game.word_progress_string).to eq("_E_E____E")
         end
       end
 
@@ -38,7 +38,7 @@ RSpec.describe Game do
         end
 
         it "doesn't uncover letters in #word_progress" do
-          expect(game.word_progress.include?("A")).to be_falsey
+          expect(game.word_progress_string).to eq("_________")
         end
       end
 
@@ -91,39 +91,6 @@ RSpec.describe Game do
     end
     
     # test result
-    describe "#word_progress" do
-      subject { game.word_progress }
-
-      context "at start of game" do
-        it { is_expected.to eq([nil, nil, nil, nil, nil, nil, nil, nil, nil]) }
-      end
-
-      context "after guessing 'E'" do
-        let(:letters_to_guess) { ["E"] }
-
-        it { is_expected.to eq([nil, "E", nil, "E", nil, nil, nil, nil, "E"]) }
-      end
-
-      context "after guessing 'X'" do
-        let(:letters_to_guess) { ["X"] }
-        
-        it { is_expected.to eq([nil, nil, nil, nil, nil, nil, nil, nil, nil]) }
-      end
-
-      context "after 9 bad guesses" do
-        let(:letters_to_guess) { ["A", "B", "D", "F", "S", "W", "X", "Y", "Z"] }
-
-        it { is_expected.to eq([nil, nil, nil, nil, nil, nil, nil, nil, nil]) }
-      end
-
-      context "after guessing the word, no bad guesses" do
-        let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
-        
-        it { is_expected.to eq(["T", "E", "L", "E", "P", "H", "O", "N", "E"]) }
-      end
-    end
-
-    # test result
     describe "#word_progress_string" do
       subject { game.word_progress_string }
 
@@ -161,19 +128,19 @@ RSpec.describe Game do
       subject { game.lost? }
 
       context "at start of game" do
-        it { is_expected.to be_falsey }
+        it { is_expected.to be false }
       end
 
       context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
 
-        it { is_expected.to be_falsey }
+        it { is_expected.to be false }
       end
 
       context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
         
-        it { is_expected.to be_falsey }
+        it { is_expected.to be false }
       end
 
       # this assumes INITIAL_NUMBER_OF_LIVES is 9
@@ -185,13 +152,13 @@ RSpec.describe Game do
           expect(Game::INITIAL_NUMBER_OF_LIVES).to be <= 9
         end
 
-        it { is_expected.to be_truthy }
+        it { is_expected.to be true }
       end
 
       context "after guessing the word, no bad guesses" do
         let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
 
-        it { is_expected.to be_falsey }
+        it { is_expected.to be false }
       end
     end
 
@@ -200,31 +167,37 @@ RSpec.describe Game do
       subject { game.won? }
 
       context "at start of game" do
-        it { is_expected.to be_falsey }
+        it { is_expected.to be false }
       end
 
       context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
         
-        it { is_expected.to be_falsey }
+        it { is_expected.to be false }
       end
 
       context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
 
-        it { is_expected.to be_falsey }
+        it { is_expected.to be false }
       end
 
+      # this assumes INITIAL_NUMBER_OF_LIVES is 9
+      # delete/rewrite if INITIAL_NUMBER_OF_LIVES is changed
       context "after 9 bad guesses" do
         let(:letters_to_guess) { ["A", "B", "D", "F", "S", "W", "X", "Y", "Z"] }
 
-        it { is_expected.to be_falsey }
+        it "assuming the game uses 9 lives or less" do
+          expect(Game::INITIAL_NUMBER_OF_LIVES).to be <= 9
+        end
+
+        it { is_expected.to be false }
       end
 
       context "after guessing the word, no bad guesses" do
         let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
 
-        it { is_expected.to be_truthy }
+        it { is_expected.to be true }
       end
     end
 
@@ -233,52 +206,60 @@ RSpec.describe Game do
       subject { game.finished? }
 
       context "at start of game" do
-        it { is_expected.to be_falsey }
+        it { is_expected.to be false }
       end
 
       context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
 
-        it { is_expected.to be_falsey }
+        it { is_expected.to be false }
       end
 
       context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
         
-        it { is_expected.to be_falsey }
+        it { is_expected.to be false }
       end
 
+      # this assumes INITIAL_NUMBER_OF_LIVES is 9
+      # delete/rewrite if INITIAL_NUMBER_OF_LIVES is changed
       context "after 9 bad guesses" do
         let(:letters_to_guess) { ["A", "B", "D", "F", "S", "W", "X", "Y", "Z"] }
 
-        it { is_expected.to be_truthy }
+        it "assuming the game uses 9 lives or less" do
+          expect(Game::INITIAL_NUMBER_OF_LIVES).to be <= 9
+        end
+
+        it { is_expected.to be true }
       end
 
       context "after guessing the word, no bad guesses" do
         let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
 
-        it { is_expected.to be_truthy }
+        it { is_expected.to be true }
       end
     end
 
     # test result
     describe "#letter_has_been_guessed?" do
-      subject { game.letter_has_been_guessed?("A") }
+      context "with letter 'A'" do
+        subject { game.letter_has_been_guessed?("A") }
 
-      context "at start of game" do
-        it { is_expected.to be_falsey }
-      end
+        context "at start of game" do
+          it { is_expected.to be false }
+        end
 
-      context "after guessing 'E'" do
-        let(:letters_to_guess) { ["E"] }
+        context "after guessing 'E'" do
+          let(:letters_to_guess) { ["E"] }
 
-        it { is_expected.to be_falsey }
-      end
+          it { is_expected.to be false }
+        end
 
-      context "after guessing 'A'" do
-        let(:letters_to_guess) { ["A"] }
-        
-        it { is_expected.to be_truthy }
+        context "after guessing 'A'" do
+          let(:letters_to_guess) { ["A"] }
+          
+          it { is_expected.to be true }
+        end
       end
     end
   end

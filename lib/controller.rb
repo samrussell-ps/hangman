@@ -8,19 +8,7 @@ class Controller
 
   # command
   def run
-    alert = nil
-
     until @game.finished? do
-      # new version
-      # shows the user the state of the game
-      # gets input from user
-      # checks the input
-      # alerts the user if input is bad
-      # alerts the user if letter has been guessed
-      # otherwise guesses the letter
-      # when finished
-      # shows the user the final state (won/lost, word)
-      
       @user_interface.display_game_state
 
       user_input = @user_interface.user_input

@@ -119,7 +119,7 @@ RSpec.describe Controller do
       end
 
       context "with valid lowercase input 'a'" do
-        let(:letter_to_guess) { "A" }
+        let(:letter_to_guess) { "a" }
 
         before do
           allow(user_interface).to receive(:user_input).and_return(letter_to_guess)
@@ -155,7 +155,7 @@ RSpec.describe Controller do
             controller.run
           end
 
-          it "guesses the letter" do
+          it "guesses the uppercase version of the letter" do
             expect(game).to receive(:guess_letter).with(letter_to_guess.upcase)
 
             controller.run

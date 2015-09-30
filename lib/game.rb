@@ -1,14 +1,5 @@
 require "set"
 
-# This class holds the game state for a game of hangman
-# It can be initialised with a word in uppercase characters
-# It can answer abstract questions about the game:
-# - have we won
-# - have we lost
-# - is the game over
-# - has a letter been guessed
-# - how many lives are left
-# The game state can be changed by guessing a letter
 class Game
   INITIAL_NUMBER_OF_LIVES = 9
 
@@ -25,16 +16,9 @@ class Game
   end
 
   # query
-  def word_progress
-    # returns an array showing the word with un-guessed letters replaced with nil
-    @word.chars.map { |char| if @guessed_letters.include?(char) then char else nil end }
-  end
-
-  # query
   def word_progress_string
     word_progress.map { | char | if char then char else "_" end }.join
   end
-
 
   # query
   def letter_has_been_guessed?(letter)
@@ -62,6 +46,12 @@ class Game
   end
 
   private
+
+  # query
+  def word_progress
+    # returns an array showing the word with un-guessed letters replaced with nil
+    @word.chars.map { |char| if @guessed_letters.include?(char) then char else nil end }
+  end
 
   def total_guess_count
     @guessed_letters.size

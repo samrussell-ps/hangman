@@ -34,6 +34,7 @@ RSpec.describe UserInterface do
 
   describe "#display_alert" do
     let(:test_alert) { "test alert" }
+
     it "calls puts" do
       expect(user_interface).to receive(:puts).at_least(:once)
 
