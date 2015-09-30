@@ -13,6 +13,8 @@ RSpec.describe Controller do
       allow(game).to receive(:won?)
       allow(user_interface).to receive(:display_game_won_message)
       allow(user_interface).to receive(:display_game_lost_message)
+      allow(user_interface).to receive(:display_bad_input_alert)
+      allow(user_interface).to receive(:display_letter_already_guessed_alert)
     end
 
     context "when game is still running" do
@@ -24,9 +26,9 @@ RSpec.describe Controller do
 
         # stubs
         allow(user_interface).to receive(:display_game_state)
-        allow(user_interface).to receive(:user_input).and_return(letter_to_guess)
-        allow(game).to receive(:letter_has_been_guessed?)
+        allow(user_interface).to receive(:ask_for_user_input).and_return(letter_to_guess)
         allow(game).to receive(:guess_letter)
+        allow(game).to receive(:letter_has_been_guessed?)
       end
 
       it "displays game state" do
@@ -39,14 +41,7 @@ RSpec.describe Controller do
         let(:letter_to_guess) { "invalid input" }
 
         before do
-          allow(user_interface).to receive(:user_input).and_return(letter_to_guess)
-          allow(user_interface).to receive(:display_alert)
-        end
-
-        it "displays an alert" do
-          expect(user_interface).to receive(:display_alert)
-
-          controller.run
+          allow(user_interface).to receive(:ask_for_user_input).and_return(letter_to_guess)
         end
 
         it "doesn't guess the letter" do
@@ -60,20 +55,13 @@ RSpec.describe Controller do
         let(:letter_to_guess) { "A" }
 
         before do
-          allow(user_interface).to receive(:user_input).and_return(letter_to_guess)
-          allow(user_interface).to receive(:display_alert)
+          allow(user_interface).to receive(:ask_for_user_input).and_return(letter_to_guess)
           allow(game).to receive(:guess_letter)
         end
 
         context "when letter has already been guessed" do
           before do
             allow(game).to receive(:letter_has_been_guessed?).and_return(true)
-          end
-
-          it "displays an alert" do
-            expect(user_interface).to receive(:display_alert)
-
-            controller.run
           end
 
           it "doesn't guess the letter" do
@@ -86,12 +74,6 @@ RSpec.describe Controller do
         context "when letter hasn't yet been guessed" do
           before do
             allow(game).to receive(:letter_has_been_guessed?).and_return(false)
-          end
-
-          it "doesn't display an alert" do
-            expect(user_interface).to_not receive(:display_alert)
-
-            controller.run
           end
 
           it "guesses the letter" do
@@ -106,19 +88,12 @@ RSpec.describe Controller do
         let(:letter_to_guess) { "a" }
 
         before do
-          allow(user_interface).to receive(:user_input).and_return(letter_to_guess)
+          allow(user_interface).to receive(:ask_for_user_input).and_return(letter_to_guess)
         end
 
         context "when letter has already been guessed" do
           before do
             allow(game).to receive(:letter_has_been_guessed?).and_return(true)
-            allow(user_interface).to receive(:display_alert)
-          end
-
-          it "displays an alert" do
-            expect(user_interface).to receive(:display_alert)
-
-            controller.run
           end
 
           it "doesn't guess the letter" do
@@ -131,12 +106,6 @@ RSpec.describe Controller do
         context "when letter hasn't yet been guessed" do
           before do
             allow(game).to receive(:letter_has_been_guessed?).and_return(false)
-          end
-
-          it "doesn't display an alert" do
-            expect(user_interface).to_not receive(:display_alert)
-
-            controller.run
           end
 
           it "guesses the uppercase version of the letter" do

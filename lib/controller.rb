@@ -4,25 +4,27 @@ class Controller
   def initialize(game, user_interface)
     @game = game
     @user_interface = user_interface
+    @input_validator = InputValidator.new(@game, @user_interface)
   end
 
   def run
-    until @game.finished? do
-      @user_interface.display_game_state
+    play_next_turn until @game.finished?
 
-      user_input = @user_interface.user_input
+    finish_game
+  end
 
-      if InputValidator.valid?(user_input)
-        if @game.letter_has_been_guessed?(user_input.upcase)
-          @user_interface.display_alert("Letter has already been guessed")
-        else
-          @game.guess_letter(user_input.upcase)
-        end
-      else
-        @user_interface.display_alert("Invalid data")
-      end
-    end
+  private
 
+  def play_next_turn
+    @user_interface.display_game_state
+
+    user_input = @user_interface.ask_for_user_input
+    valid_user_input = @input_validator.convert_to_valid_form(user_input)
+
+    @game.guess_letter(valid_user_input) if valid_user_input
+  end
+
+  def finish_game
     if @game.won?
       @user_interface.display_game_won_message
     else

@@ -8,6 +8,7 @@ class Game
   def initialize(initial_word_in_uppercase)
     @word = initial_word_in_uppercase
     @guessed_letters = Set.new
+    @last_guess_was_successful = true
   end
 
   def lives_left
@@ -15,15 +16,15 @@ class Game
   end
 
   def word_progress
-    @word.chars.map { |char| if @guessed_letters.include?(char) then char else "_" end }.join
-  end
-
-  def letter_has_been_guessed?(letter)
-    @guessed_letters.include?(letter)
+    @word.chars.map { |char| char if @guessed_letters.include?(char) }
   end
 
   def guess_letter(letter)
     @guessed_letters.add(letter)
+  end
+
+  def letter_has_been_guessed?(letter)
+    @guessed_letters.include?(letter)
   end
 
   def won?

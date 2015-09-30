@@ -82,31 +82,31 @@ RSpec.describe Game do
       subject { game.word_progress }
 
       context "at start of game" do
-        it { is_expected.to eq("_________") }
+        it { is_expected.to eq([nil, nil, nil, nil, nil, nil, nil, nil, nil]) }
       end
 
       context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
 
-        it { is_expected.to eq("_E_E____E") }
+        it { is_expected.to eq([nil, "E", nil, "E", nil, nil, nil, nil, "E"]) }
       end
 
       context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
         
-        it { is_expected.to eq("_________") }
+        it { is_expected.to eq([nil, nil, nil, nil, nil, nil, nil, nil, nil]) }
       end
 
       context "after 9 bad guesses" do
         let(:letters_to_guess) { guesses_to_lose }
 
-        it { is_expected.to eq("_________") }
+        it { is_expected.to eq([nil, nil, nil, nil, nil, nil, nil, nil, nil]) }
       end
 
       context "after guessing the word, no bad guesses" do
         let(:letters_to_guess) { guesses_to_win }
         
-        it { is_expected.to eq("TELEPHONE") }
+        it { is_expected.to eq(["T", "E", "L", "E", "P", "H", "O", "N", "E"]) }
       end
     end
 

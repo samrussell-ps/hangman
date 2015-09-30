@@ -7,8 +7,8 @@ RSpec.describe UserInterface do
 
   before do
     allow(game).to receive(:lives_left)
-    allow(game).to receive(:word_progress)
-    allow(game).to receive(:word)
+    allow(game).to receive(:word_progress).and_return([nil, nil, nil, nil, nil, nil, nil, nil, nil])
+    allow(game).to receive(:word).and_return("TELEPHONE")
   end
 
   describe "#display_game_state" do
@@ -19,7 +19,7 @@ RSpec.describe UserInterface do
     end
   end
 
-  describe "#user_input" do
+  describe "#ask_for_user_input" do
     let(:test_input) { "test input\n" }
     let(:expected_output) { "test input" }
 
@@ -28,17 +28,23 @@ RSpec.describe UserInterface do
     end
 
     it "strips newlines" do
-      expect(user_interface.user_input).to eq(expected_output)
+      expect(user_interface.ask_for_user_input).to eq(expected_output)
     end
   end
 
-  describe "#display_alert" do
-    let(:test_alert) { "test alert" }
-
+  describe "#display_bad_input_alert" do
     it "calls puts" do
       expect(user_interface).to receive(:puts).at_least(:once)
 
-      user_interface.display_alert(test_alert)
+      user_interface.display_bad_input_alert
+    end
+  end
+
+  describe "#display_letter_already_guessed_alert" do
+    it "calls puts" do
+      expect(user_interface).to receive(:puts).at_least(:once)
+
+      user_interface.display_letter_already_guessed_alert
     end
   end
 
