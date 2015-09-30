@@ -4,7 +4,9 @@ class RandomWordGenerator
 
   # query
   def self.random_word
-    File.readlines(WORDLIST_FILENAME).sample.chomp
+    @@word_list ||= File.readlines(WORDLIST_FILENAME)
+
+    @@word_list.sample.chomp
   end
 end
 
