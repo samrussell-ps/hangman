@@ -5,40 +5,33 @@ RSpec.describe Game do
   let(:letters_to_guess) { [] }
   let(:word_to_be_guessed) { "TELEPHONE" }
   let(:game){ Game.new(word_to_be_guessed) }
+  let(:guesses_to_win) { [ "T", "E", "L", "P", "H", "O", "N" ] }
+  let(:guesses_to_lose) { [ "Z", "X", "C", "V", "B", "A", "S", "D", "F" ] }
+  let(:initial_lives) { 9 }
 
-  # test direct public side effects
   before { letters_to_guess.each { |letter| game.guess_letter(letter) } }
 
   context "initialized with word 'TELEPHONE'" do
     let(:word_to_be_guessed) { "TELEPHONE" }
 
-    # test direct public side effects
     describe "#guess_letter" do
       context "guessing a correct letter" do
-        before do
-          game.guess_letter("E")
+        it "doesn't change lives_left" do
+          expect{ game.guess_letter("E") }.to_not change{ game.lives_left }
         end
 
-        it "doesn't decrease number of lives" do
-          expect(game.lives_left).to eq(Game::INITIAL_NUMBER_OF_LIVES)
-        end
-
-        it "uncovers the letter in #word_progress_string" do
-          expect(game.word_progress_string).to eq("_E_E____E")
+        it "changes #word_progress" do
+          expect{ game.guess_letter("E") }.to change{ game.word_progress }
         end
       end
 
       context "guessing an incorrect letter" do
-        before do
-          game.guess_letter("A")
+        it "changes lives_left" do
+          expect{ game.guess_letter("A") }.to change{ game.lives_left }.by(-1)
         end
 
-        it "decreases number of lives" do
-          expect(game.lives_left).to eq(Game::INITIAL_NUMBER_OF_LIVES - 1)
-        end
-
-        it "doesn't uncover letters in #word_progress" do
-          expect(game.word_progress_string).to eq("_________")
+        it "doesn't change #word_progress" do
+          expect{ game.guess_letter("A") }.to_not change{ game.word_progress }
         end
       end
 
@@ -48,51 +41,45 @@ RSpec.describe Game do
         end
 
         it "doesn't decreases number of lives" do
-          expect(game.lives_left).to eq(Game::INITIAL_NUMBER_OF_LIVES - 1)
-
-          game.guess_letter("A")
-
-          expect(game.lives_left).to eq(Game::INITIAL_NUMBER_OF_LIVES - 1)
+          expect{ game.guess_letter("A") }.to_not change{ game.lives_left }
         end
       end
     end
 
-    # test result
     describe "#lives_left" do
       subject { game.lives_left }
 
       context "at start of game" do
-        it { is_expected.to eq(Game::INITIAL_NUMBER_OF_LIVES) }
+        it { is_expected.to eq(initial_lives) }
       end
 
       context "after guessing 'E'" do
         let(:letters_to_guess) { ["E"] }
 
-        it { is_expected.to eq(Game::INITIAL_NUMBER_OF_LIVES) }
+        it { is_expected.to eq(initial_lives) }
       end
 
       context "after guessing 'X'" do
         let(:letters_to_guess) { ["X"] }
 
-        it { is_expected.to eq(Game::INITIAL_NUMBER_OF_LIVES - 1) }
+        it { is_expected.to eq(initial_lives - 1) }
       end
 
       context "after 9 bad guesses" do
-        let(:letters_to_guess) { ["A", "B", "D", "F", "S", "W", "X", "Y", "Z"] }
+        let(:letters_to_guess) { guesses_to_lose }
 
-        it { is_expected.to eq([Game::INITIAL_NUMBER_OF_LIVES - 9, 0].max) }
+        it { is_expected.to eq(0) }
       end
 
       context "after guessing the word, no bad guesses" do
-        let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
+        let(:letters_to_guess) { guesses_to_win }
 
-        it { is_expected.to eq(Game::INITIAL_NUMBER_OF_LIVES) }
+        it { is_expected.to eq(initial_lives) }
       end
     end
     
-    # test result
-    describe "#word_progress_string" do
-      subject { game.word_progress_string }
+    describe "#word_progress" do
+      subject { game.word_progress }
 
       context "at start of game" do
         it { is_expected.to eq("_________") }
@@ -111,19 +98,18 @@ RSpec.describe Game do
       end
 
       context "after 9 bad guesses" do
-        let(:letters_to_guess) { ["A", "B", "D", "F", "S", "W", "X", "Y", "Z"] }
+        let(:letters_to_guess) { guesses_to_lose }
 
         it { is_expected.to eq("_________") }
       end
 
       context "after guessing the word, no bad guesses" do
-        let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
+        let(:letters_to_guess) { guesses_to_win }
         
         it { is_expected.to eq("TELEPHONE") }
       end
     end
 
-    # test result
     describe "#lost?" do
       subject { game.lost? }
 
@@ -143,26 +129,19 @@ RSpec.describe Game do
         it { is_expected.to be false }
       end
 
-      # this assumes INITIAL_NUMBER_OF_LIVES is 9
-      # delete/rewrite if INITIAL_NUMBER_OF_LIVES is changed
       context "after 9 bad guesses" do
-        let(:letters_to_guess) { ["A", "B", "D", "F", "S", "W", "X", "Y", "Z"] }
-
-        it "assuming the game uses 9 lives or less" do
-          expect(Game::INITIAL_NUMBER_OF_LIVES).to be <= 9
-        end
+        let(:letters_to_guess) { guesses_to_lose }
 
         it { is_expected.to be true }
       end
 
       context "after guessing the word, no bad guesses" do
-        let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
+        let(:letters_to_guess) { guesses_to_win }
 
         it { is_expected.to be false }
       end
     end
 
-    # test result
     describe "#won?" do
       subject { game.won? }
 
@@ -182,26 +161,19 @@ RSpec.describe Game do
         it { is_expected.to be false }
       end
 
-      # this assumes INITIAL_NUMBER_OF_LIVES is 9
-      # delete/rewrite if INITIAL_NUMBER_OF_LIVES is changed
       context "after 9 bad guesses" do
-        let(:letters_to_guess) { ["A", "B", "D", "F", "S", "W", "X", "Y", "Z"] }
-
-        it "assuming the game uses 9 lives or less" do
-          expect(Game::INITIAL_NUMBER_OF_LIVES).to be <= 9
-        end
+        let(:letters_to_guess) { guesses_to_lose }
 
         it { is_expected.to be false }
       end
 
       context "after guessing the word, no bad guesses" do
-        let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
+        let(:letters_to_guess) { guesses_to_win }
 
         it { is_expected.to be true }
       end
     end
 
-    # test result
     describe "#finished?" do
       subject { game.finished? }
 
@@ -221,26 +193,19 @@ RSpec.describe Game do
         it { is_expected.to be false }
       end
 
-      # this assumes INITIAL_NUMBER_OF_LIVES is 9
-      # delete/rewrite if INITIAL_NUMBER_OF_LIVES is changed
       context "after 9 bad guesses" do
-        let(:letters_to_guess) { ["A", "B", "D", "F", "S", "W", "X", "Y", "Z"] }
-
-        it "assuming the game uses 9 lives or less" do
-          expect(Game::INITIAL_NUMBER_OF_LIVES).to be <= 9
-        end
+        let(:letters_to_guess) { guesses_to_lose }
 
         it { is_expected.to be true }
       end
 
       context "after guessing the word, no bad guesses" do
-        let(:letters_to_guess) { ["T", "E", "L", "P", "H", "O", "N"] }
+        let(:letters_to_guess) { guesses_to_win }
 
         it { is_expected.to be true }
       end
     end
 
-    # test result
     describe "#letter_has_been_guessed?" do
       context "with letter 'A'" do
         subject { game.letter_has_been_guessed?("A") }

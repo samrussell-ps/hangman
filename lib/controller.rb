@@ -6,7 +6,6 @@ class Controller
     @user_interface = user_interface
   end
 
-  # command
   def run
     until @game.finished? do
       @user_interface.display_game_state

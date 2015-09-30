@@ -5,7 +5,7 @@ class UserInterface
 
   def display_game_state
     puts "You have #{@game.lives_left} lives left"
-    puts "Word progress: #{@game.word_progress_string}"
+    puts "Word progress: #{@game.word_progress}"
   end
 
   def user_input

@@ -15,12 +15,6 @@ RSpec.describe Controller do
       allow(user_interface).to receive(:display_game_lost_message)
     end
 
-    it "checks whether the game is finished" do
-      expect(game).to receive(:finished?).and_return(true)
-
-      controller.run
-    end
-
     context "when game is still running" do
       let(:letter_to_guess) { "A" }
 
@@ -35,17 +29,9 @@ RSpec.describe Controller do
         allow(game).to receive(:guess_letter)
       end
 
-      # test outgoing command
       it "displays game state" do
         expect(user_interface).to receive(:display_game_state)
 
-        controller.run
-      end
-
-      # test outgoing command
-      it "gets user input" do
-        expect(user_interface).to receive(:user_input)
-        
         controller.run
       end
 
@@ -57,14 +43,12 @@ RSpec.describe Controller do
           allow(user_interface).to receive(:display_alert)
         end
 
-        # test outgoing command
         it "displays an alert" do
           expect(user_interface).to receive(:display_alert)
 
           controller.run
         end
 
-        # test outgoing command
         it "doesn't guess the letter" do
           expect(game).to_not receive(:guess_letter)
 
@@ -168,12 +152,6 @@ RSpec.describe Controller do
       before do
         # jump to end
         allow(game).to receive(:finished?).and_return(true)
-      end
-
-      it "checks whether the game has been won" do
-        expect(game).to receive(:won?)
-
-        controller.run
       end
 
       context "when game is won" do

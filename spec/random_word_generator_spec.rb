@@ -2,11 +2,10 @@ require "spec_helper"
 require "random_word_generator"
 
 RSpec.describe RandomWordGenerator do
-  # test result
-  describe "#random_word" do
+  describe "#next" do
     let(:test_words_count) { 50 }
     let(:minimum_unique_words_count) { 40 }
-    let(:words) { test_words_count.times.map { RandomWordGenerator.random_word } }
+    let(:words) { test_words_count.times.map { RandomWordGenerator.next } }
 
     it 'is a string' do
       words.each { |word| expect(word).to be_a String }

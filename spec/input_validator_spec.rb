@@ -5,7 +5,6 @@ RSpec.describe InputValidator do
   let(:user_data) { nil }
   let(:input_validator) { InputValidator }
 
-  # test result
   describe "#valid?" do
     let(:user_data) { nil }
     subject { input_validator.valid?(user_data) }

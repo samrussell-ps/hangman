@@ -7,7 +7,7 @@ RSpec.describe UserInterface do
 
   before do
     allow(game).to receive(:lives_left)
-    allow(game).to receive(:word_progress_string)
+    allow(game).to receive(:word_progress)
     allow(game).to receive(:word)
   end
 
