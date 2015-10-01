@@ -31,7 +31,7 @@ RSpec.describe Controller do
       end
 
       it "displays game state" do
-        allow(game).to receive(:letter_has_been_guessed?)
+        allow(game).to receive(:letter_already_guessed?)
         expect(user_interface).to receive(:display_game_state)
 
         controller.run
@@ -45,7 +45,7 @@ RSpec.describe Controller do
         end
 
         it "doesn't guess the letter" do
-          allow(game).to receive(:letter_has_been_guessed?).and_return(false)
+          allow(game).to receive(:letter_already_guessed?).and_return(false)
           expect(game).to_not receive(:guess_letter)
 
           controller.run
@@ -62,7 +62,7 @@ RSpec.describe Controller do
 
         context "when letter has already been guessed" do
           before do
-            allow(game).to receive(:letter_has_been_guessed?).and_return(true)
+            allow(game).to receive(:letter_already_guessed?).and_return(true)
           end
 
           it "doesn't guess the letter" do
@@ -74,7 +74,7 @@ RSpec.describe Controller do
 
         context "when letter hasn't yet been guessed" do
           before do
-            allow(game).to receive(:letter_has_been_guessed?).and_return(false)
+            allow(game).to receive(:letter_already_guessed?).and_return(false)
           end
 
           it "guesses the letter" do
@@ -94,7 +94,7 @@ RSpec.describe Controller do
 
         context "when letter has already been guessed" do
           before do
-            allow(game).to receive(:letter_has_been_guessed?).and_return(true)
+            allow(game).to receive(:letter_already_guessed?).and_return(true)
           end
 
           it "doesn't guess the letter" do
@@ -106,11 +106,11 @@ RSpec.describe Controller do
 
         context "when letter hasn't yet been guessed" do
           before do
-            allow(game).to receive(:letter_has_been_guessed?).and_return(false)
+            allow(game).to receive(:letter_already_guessed?).and_return(false)
           end
 
-          it "guesses the uppercase version of the letter" do
-            expect(game).to receive(:guess_letter).with(letter_to_guess.upcase)
+          it "guesses the letter" do
+            expect(game).to receive(:guess_letter).with(letter_to_guess)
 
             controller.run
           end

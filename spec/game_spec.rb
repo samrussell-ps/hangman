@@ -206,9 +206,9 @@ RSpec.describe Game do
       end
     end
 
-    describe "#letter_has_been_guessed?" do
+    describe "#letter_already_guessed?" do
       context "with letter 'A'" do
-        subject { game.letter_has_been_guessed?("A") }
+        subject { game.letter_already_guessed?("A") }
 
         context "at start of game" do
           it { is_expected.to be false }

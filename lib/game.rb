@@ -5,8 +5,8 @@ class Game
 
   attr_reader :word
 
-  def initialize(initial_word_in_uppercase)
-    @word = initial_word_in_uppercase
+  def initialize(initial_word)
+    @word = initial_word.upcase
     @guessed_letters = Set.new
   end
 
@@ -19,11 +19,11 @@ class Game
   end
 
   def guess_letter(letter)
-    @guessed_letters.add(letter)
+    @guessed_letters.add(letter.upcase)
   end
 
-  def letter_has_been_guessed?(letter)
-    @guessed_letters.include?(letter)
+  def letter_already_guessed?(letter)
+    @guessed_letters.include?(letter.upcase)
   end
 
   def won?

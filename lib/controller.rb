@@ -4,7 +4,7 @@ class Controller
   def initialize(game, user_interface)
     @game = game
     @user_interface = user_interface
-    @input_validator = InputValidator.new(@game, @user_interface)
+    @input_validator = InputValidator.new(@game)
   end
 
   def run
@@ -19,7 +19,14 @@ class Controller
     @user_interface.display_game_state
 
     user_input = @user_interface.ask_for_user_input
-    @input_validator.guess_letter_or_alert_user(user_input)
+    case @input_validator.call(user_input)
+      when true
+        @game.guess_letter(user_input)
+      when :not_a_single_letter
+        @user_interface.display_bad_input_alert
+      when :letter_already_guessed
+        @user_interface.display_letter_already_guessed_alert
+    end
   end
 
   def finish_game

@@ -1,17 +1,17 @@
 require "./lib/game"
 
 class InputValidator
-  def initialize(game, user_interface)
+  def initialize(game)
     @game = game
-    @user_interface = user_interface
   end
 
-  def guess_letter_or_alert_user(input)
-    if is_a_single_letter?(input.upcase) && !@game.letter_has_been_guessed?(input.upcase)
-      @game.guess_letter(input.upcase)
+  def call(input)
+    if !is_a_single_letter?(input.upcase)
+      :not_a_single_letter
+    elsif @game.letter_already_guessed?(input.upcase)
+      :letter_already_guessed
     else
-      @user_interface.display_bad_input_alert unless is_a_single_letter?(input.upcase)
-      @user_interface.display_letter_already_guessed_alert if @game.letter_has_been_guessed?(input.upcase)
+      true
     end
   end
 
