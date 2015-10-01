@@ -28,10 +28,10 @@ RSpec.describe Controller do
         allow(user_interface).to receive(:display_game_state)
         allow(user_interface).to receive(:ask_for_user_input).and_return(letter_to_guess)
         allow(game).to receive(:guess_letter)
-        allow(game).to receive(:letter_has_been_guessed?)
       end
 
       it "displays game state" do
+        allow(game).to receive(:letter_has_been_guessed?)
         expect(user_interface).to receive(:display_game_state)
 
         controller.run
@@ -45,6 +45,7 @@ RSpec.describe Controller do
         end
 
         it "doesn't guess the letter" do
+          allow(game).to receive(:letter_has_been_guessed?).and_return(false)
           expect(game).to_not receive(:guess_letter)
 
           controller.run

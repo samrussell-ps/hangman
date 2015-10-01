@@ -26,7 +26,7 @@ RSpec.describe Game do
       end
 
       context "guessing an incorrect letter" do
-        it "changes lives_left" do
+        it "decrements lives_left" do
           expect{ game.guess_letter("A") }.to change{ game.lives_left }.by(-1)
         end
 
@@ -40,7 +40,7 @@ RSpec.describe Game do
           game.guess_letter("A")
         end
 
-        it "doesn't decreases number of lives" do
+        it "doesn't decrement number of lives" do
           expect{ game.guess_letter("A") }.to_not change{ game.lives_left }
         end
       end

@@ -8,7 +8,6 @@ class Game
   def initialize(initial_word_in_uppercase)
     @word = initial_word_in_uppercase
     @guessed_letters = Set.new
-    @last_guess_was_successful = true
   end
 
   def lives_left
