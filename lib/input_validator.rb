@@ -13,7 +13,9 @@ class InputValidator
   private
 
   def valid?(input)
-    is_a_single_letter?(input) && !@game.letter_has_been_guessed?(input)
+    @user_interface.display_bad_input_alert if !is_a_single_letter?(input)
+    @user_interface.display_letter_already_guessed_alert if @game.letter_has_been_guessed?(input)
+    valid = is_a_single_letter?(input) && !@game.letter_has_been_guessed?(input)
   end
 
   def is_a_single_letter?(input)
