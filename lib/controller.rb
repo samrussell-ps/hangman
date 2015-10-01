@@ -19,9 +19,7 @@ class Controller
     @user_interface.display_game_state
 
     user_input = @user_interface.ask_for_user_input
-    valid_user_input = @input_validator.convert_to_valid_form(user_input)
-
-    @game.guess_letter(valid_user_input) if valid_user_input
+    @input_validator.guess_letter_or_alert_user(user_input)
   end
 
   def finish_game

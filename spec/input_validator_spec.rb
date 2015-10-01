@@ -9,13 +9,14 @@ RSpec.describe InputValidator do
   let(:user_interface) { instance_double("UserInterface") }
   let(:input_validator) { InputValidator.new(game, user_interface) }
 
-  describe "#convert_to_valid_form" do
+  describe "#guess_letter_or_alert_user" do
     let(:user_data) { nil }
-    subject(:valid_input) { input_validator.convert_to_valid_form(user_data) }
+    subject(:valid_input) { input_validator.guess_letter_or_alert_user(user_data) }
     
     before do
       allow(user_interface).to receive(:display_letter_already_guessed_alert)
       allow(user_interface).to receive(:display_bad_input_alert)
+      allow(game).to receive(:guess_letter)
     end
 
     context "when letter hasn't been guessed" do
@@ -81,7 +82,11 @@ RSpec.describe InputValidator do
         let(:user_data) { "c" }
         let(:valid_user_data) { "C" }
 
-        it { is_expected.to eq(valid_user_data) }
+        it "calls Game#guess_letter" do
+          expect(game).to receive(:guess_letter).with(valid_user_data)
+
+          valid_input
+        end
 
         it "doesn't call display_letter_already_guessed_alert" do
           expect(user_interface).to_not receive(:display_letter_already_guessed_alert)
@@ -100,7 +105,11 @@ RSpec.describe InputValidator do
         let(:user_data) { "C" }
         let(:valid_user_data) { "C" }
 
-        it { is_expected.to eq(valid_user_data) }
+        it "calls Game#guess_letter" do
+          expect(game).to receive(:guess_letter).with(valid_user_data)
+
+          valid_input
+        end
 
         it "doesn't call display_letter_already_guessed_alert" do
           expect(user_interface).to_not receive(:display_letter_already_guessed_alert)
