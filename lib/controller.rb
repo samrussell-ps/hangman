@@ -1,10 +1,9 @@
-require "./lib/input_validator"
+require "./lib/guess"
 
 class Controller
   def initialize(game, user_interface)
     @game = game
     @user_interface = user_interface
-    @input_validator = InputValidator.new(@game)
   end
 
   def run
@@ -18,14 +17,23 @@ class Controller
   def play_next_turn
     @user_interface.display_game_state
 
-    user_input = @user_interface.ask_for_user_input
-    case @input_validator.call(user_input)
-      when true
-        @game.guess_letter(user_input)
+    guess = Guess.new(@game, @user_interface.ask_for_user_input)
+    
+    if guess.valid?
+      guess.submit
+    else
+      alert_on_errors(guess.errors)
+    end
+  end
+
+  def alert_on_errors(errors)
+    errors.each do |error|
+      case error
       when :not_a_single_letter
         @user_interface.display_bad_input_alert
       when :letter_already_guessed
         @user_interface.display_letter_already_guessed_alert
+      end
     end
   end
 

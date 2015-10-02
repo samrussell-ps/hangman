@@ -1,7 +1,6 @@
 require "spec_helper"
 require "controller"
 require "game"
-require "input_validator"
 
 RSpec.describe Controller do
   let(:game) { instance_double("Game") }
@@ -42,11 +41,17 @@ RSpec.describe Controller do
 
         before do
           allow(user_interface).to receive(:ask_for_user_input).and_return(letter_to_guess)
+          allow(game).to receive(:letter_already_guessed?).and_return(false)
         end
 
         it "doesn't guess the letter" do
-          allow(game).to receive(:letter_already_guessed?).and_return(false)
           expect(game).to_not receive(:guess_letter)
+
+          controller.run
+        end
+
+        it "calls display_bad_input_alert" do
+          expect(user_interface).to receive(:display_bad_input_alert)
 
           controller.run
         end
@@ -70,6 +75,18 @@ RSpec.describe Controller do
 
             controller.run
           end
+
+          it "calls display_letter_already_guessed_alert" do
+            expect(user_interface).to receive(:display_letter_already_guessed_alert)
+
+            controller.run
+          end
+
+          it "doesn't call display_bad_input_alert" do
+            expect(user_interface).to_not receive(:display_bad_input_alert)
+
+            controller.run
+          end
         end
 
         context "when letter hasn't yet been guessed" do
@@ -79,6 +96,18 @@ RSpec.describe Controller do
 
           it "guesses the letter" do
             expect(game).to receive(:guess_letter).with(letter_to_guess)
+
+            controller.run
+          end
+
+          it "doesn't call display_letter_already_guessed_alert" do
+            expect(user_interface).to_not receive(:display_letter_already_guessed_alert)
+
+            controller.run
+          end
+
+          it "doesn't call display_bad_input_alert" do
+            expect(user_interface).to_not receive(:display_bad_input_alert)
 
             controller.run
           end
@@ -102,6 +131,18 @@ RSpec.describe Controller do
 
             controller.run
           end
+
+          it "calls display_letter_already_guessed_alert" do
+            expect(user_interface).to receive(:display_letter_already_guessed_alert)
+
+            controller.run
+          end
+
+          it "doesn't call display_bad_input_alert" do
+            expect(user_interface).to_not receive(:display_bad_input_alert)
+
+            controller.run
+          end
         end
 
         context "when letter hasn't yet been guessed" do
@@ -110,7 +151,19 @@ RSpec.describe Controller do
           end
 
           it "guesses the letter" do
-            expect(game).to receive(:guess_letter).with(letter_to_guess)
+            expect(game).to receive(:guess_letter).with(letter_to_guess.upcase)
+
+            controller.run
+          end
+
+          it "doesn't call display_letter_already_guessed_alert" do
+            expect(user_interface).to_not receive(:display_letter_already_guessed_alert)
+
+            controller.run
+          end
+
+          it "doesn't call display_bad_input_alert" do
+            expect(user_interface).to_not receive(:display_bad_input_alert)
 
             controller.run
           end
