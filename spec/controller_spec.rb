@@ -12,8 +12,7 @@ RSpec.describe Controller do
       allow(game).to receive(:won?)
       allow(user_interface).to receive(:display_game_won_message)
       allow(user_interface).to receive(:display_game_lost_message)
-      allow(user_interface).to receive(:display_bad_input_alert)
-      allow(user_interface).to receive(:display_letter_already_guessed_alert)
+      allow(user_interface).to receive(:display_alert)
     end
 
     context "when game is still running" do
@@ -50,8 +49,8 @@ RSpec.describe Controller do
           controller.run
         end
 
-        it "calls display_bad_input_alert" do
-          expect(user_interface).to receive(:display_bad_input_alert)
+        it "calls display_alert(:not_a_single_letter)" do
+          expect(user_interface).to receive(:display_alert).with(:not_a_single_letter)
 
           controller.run
         end
@@ -76,14 +75,14 @@ RSpec.describe Controller do
             controller.run
           end
 
-          it "calls display_letter_already_guessed_alert" do
-            expect(user_interface).to receive(:display_letter_already_guessed_alert)
+          it "calls display_alert(:letter_already_guessed)" do
+            expect(user_interface).to receive(:display_alert).with(:letter_already_guessed)
 
             controller.run
           end
 
-          it "doesn't call display_bad_input_alert" do
-            expect(user_interface).to_not receive(:display_bad_input_alert)
+          it "doesn't call display_alert(:not_a_single_letter)" do
+            expect(user_interface).to_not receive(:display_alert).with(:not_a_single_letter)
 
             controller.run
           end
@@ -100,14 +99,14 @@ RSpec.describe Controller do
             controller.run
           end
 
-          it "doesn't call display_letter_already_guessed_alert" do
-            expect(user_interface).to_not receive(:display_letter_already_guessed_alert)
+          it "doesn't call display_alert(:letter_already_guessed)" do
+            expect(user_interface).to_not receive(:display_alert).with(:letter_already_guessed)
 
             controller.run
           end
 
-          it "doesn't call display_bad_input_alert" do
-            expect(user_interface).to_not receive(:display_bad_input_alert)
+          it "doesn't call display_alert(:not_a_single_letter)" do
+            expect(user_interface).to_not receive(:display_alert).with(:not_a_single_letter)
 
             controller.run
           end
@@ -132,14 +131,14 @@ RSpec.describe Controller do
             controller.run
           end
 
-          it "calls display_letter_already_guessed_alert" do
-            expect(user_interface).to receive(:display_letter_already_guessed_alert)
+          it "calls display_alert(:letter_already_guessed)" do
+            expect(user_interface).to receive(:display_alert).with(:letter_already_guessed)
 
             controller.run
           end
 
-          it "doesn't call display_bad_input_alert" do
-            expect(user_interface).to_not receive(:display_bad_input_alert)
+          it "doesn't call display_alert(:not_a_single_letter)" do
+            expect(user_interface).to_not receive(:display_alert).with(:not_a_single_letter)
 
             controller.run
           end
@@ -156,14 +155,14 @@ RSpec.describe Controller do
             controller.run
           end
 
-          it "doesn't call display_letter_already_guessed_alert" do
-            expect(user_interface).to_not receive(:display_letter_already_guessed_alert)
+          it "doesn't call display_alert(:letter_already_guessed)" do
+            expect(user_interface).to_not receive(:display_alert).with(:letter_already_guessed)
 
             controller.run
           end
 
-          it "doesn't call display_bad_input_alert" do
-            expect(user_interface).to_not receive(:display_bad_input_alert)
+          it "doesn't call display_alert(:not_a_single_letter)" do
+            expect(user_interface).to_not receive(:display_alert).with(:not_a_single_letter)
 
             controller.run
           end

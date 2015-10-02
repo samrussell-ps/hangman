@@ -32,19 +32,11 @@ RSpec.describe UserInterface do
     end
   end
 
-  describe "#display_bad_input_alert" do
+  describe "#display_alert" do
     it "calls puts" do
       expect(user_interface).to receive(:puts).at_least(:once)
 
-      user_interface.display_bad_input_alert
-    end
-  end
-
-  describe "#display_letter_already_guessed_alert" do
-    it "calls puts" do
-      expect(user_interface).to receive(:puts).at_least(:once)
-
-      user_interface.display_letter_already_guessed_alert
+      user_interface.display_alert("junk data")
     end
   end
 

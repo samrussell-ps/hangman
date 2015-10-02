@@ -22,19 +22,12 @@ class Controller
     if guess.valid?
       guess.submit
     else
-      alert_on_errors(guess.errors)
+      display_errors(guess.errors)
     end
   end
 
-  def alert_on_errors(errors)
-    errors.each do |error|
-      case error
-      when :not_a_single_letter
-        @user_interface.display_bad_input_alert
-      when :letter_already_guessed
-        @user_interface.display_letter_already_guessed_alert
-      end
-    end
+  def display_errors(errors)
+    errors.each { |error| @user_interface.display_alert(error) }
   end
 
   def finish_game

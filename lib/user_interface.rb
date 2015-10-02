@@ -1,4 +1,9 @@
 class UserInterface
+  ALERT_MESSAGES = {
+    not_a_single_letter: "Please enter a single letter",
+    letter_already_guessed: "That letter has already been guessed"
+  }
+
   def initialize(game)
     @game = game
   end
@@ -12,12 +17,8 @@ class UserInterface
     readline.chomp
   end
 
-  def display_bad_input_alert
-    puts "Bad input"
-  end
-
-  def display_letter_already_guessed_alert
-    puts "That letter has already been guessed"
+  def display_alert(error)
+    puts ALERT_MESSAGES[error]
   end
 
   def display_game_won_message
