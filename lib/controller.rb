@@ -17,11 +17,13 @@ class Controller
   def play_next_turn
     @user_interface.display_game_state
 
-    guess = Guess.new(@game, @user_interface.ask_for_user_input)
+    user_input = @user_interface.ask_for_user_input
+    guess = Guess.new(@game, user_input)
     
     if guess.valid?
       guess.submit
     else
+      # TODO can only have one error so don't do .each
       display_errors(guess.errors)
     end
   end
